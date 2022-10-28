@@ -2,8 +2,6 @@ package com.example.twiter.service;
 
 import com.example.twiter.dto.MemberDto;
 import com.example.twiter.dto.Request.MemberRequestDto;
-import com.example.twiter.dto.Response.MemberResponseDto;
-import com.example.twiter.dto.ResponseDto;
 import com.example.twiter.dto.TokenDto;
 import com.example.twiter.entity.Authority;
 import com.example.twiter.entity.Member;
