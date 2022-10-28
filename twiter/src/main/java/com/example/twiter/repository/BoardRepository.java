@@ -1,0 +1,7 @@
+package com.example.twiter.repository;
+
+import com.example.twiter.entity.Board;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface BoardRepository extends JpaRepository<Board,Long> {
+}
