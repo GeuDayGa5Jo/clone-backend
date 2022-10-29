@@ -2,6 +2,7 @@ package com.example.twiter.service;
 
 import com.example.twiter.dto.BoardDto;
 import com.example.twiter.entity.Board;
+import com.example.twiter.entity.Member;
 import com.example.twiter.exceptionHandler.RestApiExceptionHandler;
 import com.example.twiter.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,25 +27,36 @@ public class BoardService {
 
         List<Board> boards = boardRepository.findAll();
 
-        return new ResponseEntity<>(boards, HttpStatus.OK);
+        BoardDto boardDtos = new BoardDto();
+        for (Board board : boards) {
+            boardDtos.addBoard(new BoardDto(board));
+        }
+
+
+
+
+        return new ResponseEntity<>( boardDtos, HttpStatus.OK);
     }
 
     @Transactional
-    public ResponseEntity<?> createBoard(BoardDto dto) {
+    public ResponseEntity<?> createBoard(BoardDto dto, Member member) {
 
-        Board saveBoard = new Board(dto);
+        Board saveBoard = new Board(dto, member);
 
         return new ResponseEntity<>(boardRepository.save(saveBoard), HttpStatus.OK);
 
     }
 
     @Transactional
-    public ResponseEntity<?> updateBoard(BoardDto dto, Long boardId) {
+    public ResponseEntity<?> updateBoard(BoardDto dto, Long boardId, Member member) {
 
         Board board = boardRepository.findById(boardId).orElse(null);
 
         if(board==null){
             return exceptionHandler.handleApiRequestException(new IllegalArgumentException("존재 하지 않는 게시글 입니다"));
+        }
+        else if(board.getMember().getMemberId()!=member.getMemberId()){
+            return exceptionHandler.handleApiRequestException(new IllegalArgumentException("작성자가 다릅니다"));
         }
 
         board.update(dto);
@@ -54,12 +66,15 @@ public class BoardService {
     }
 
     @Transactional
-    public ResponseEntity<?> deleteBoard(Long boardId){
+    public ResponseEntity<?> deleteBoard(Long boardId, Member member){
 
         Optional<Board> board = boardRepository.findById(boardId);
 
         if(board.isEmpty()){
-            return new ResponseEntity<>("보드가 존재하지 않습니다",HttpStatus.BAD_REQUEST);
+            return exceptionHandler.handleApiRequestException(new IllegalArgumentException("존재 하지 않는 게시글 입니다"));
+        }
+        else if(board.get().getMember().getMemberId()!=member.getMemberId()){
+            return exceptionHandler.handleApiRequestException(new IllegalArgumentException("작성자가 다릅니다"));
         }
 
         boardRepository.delete(board.orElse(null));

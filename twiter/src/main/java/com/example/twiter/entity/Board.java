@@ -25,7 +25,8 @@ public class Board {
     @Column
     private boolean retweet;
 
-    public Board(BoardDto dto){
+    public Board(BoardDto dto, Member member){
+        this.member = member;
         this.boardContent = dto.getBoardContent();
         this.retweet = dto.isRetweet();
     }

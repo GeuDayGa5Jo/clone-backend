@@ -24,6 +24,7 @@ public class Member {
     private String memberName;
 
     @Column
+    @JsonIgnore
     private String memberPassword;
 
     @Column
