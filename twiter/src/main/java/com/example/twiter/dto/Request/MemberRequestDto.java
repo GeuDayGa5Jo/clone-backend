@@ -14,13 +14,13 @@ public class MemberRequestDto {
     private String memberEmail;
     private String memberName;
     private String memberPassword;
-    private String passwordConfirm;
     private Date DOB;
-
+    private String passwordConfirm;
 
 
     public UsernamePasswordAuthenticationToken toAuthentication() {
         return new UsernamePasswordAuthenticationToken(memberEmail, memberPassword);
     }
+
 
 }

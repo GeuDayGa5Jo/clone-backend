@@ -1,15 +1,19 @@
 package com.example.twiter.service;
 
 import com.example.twiter.dto.MemberDto;
+import com.example.twiter.dto.Request.MemberInfoRequestDto;
 import com.example.twiter.dto.Request.MemberRequestDto;
+import com.example.twiter.dto.Request.TokenRequestDto;
 import com.example.twiter.dto.TokenDto;
 import com.example.twiter.entity.Authority;
 import com.example.twiter.entity.Member;
 import com.example.twiter.entity.RefreshToken;
 import com.example.twiter.repository.MemberRepository;
 import com.example.twiter.repository.RefreshTokenRepository;
+import com.example.twiter.security.MemberDetailsImpl;
 import com.example.twiter.security.TokenProvider;
 import com.example.twiter.security.jwt.JwtFilter;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,9 +25,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -34,29 +35,32 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final RefreshTokenRepository refreshTokenRepository;
 
+    //회원가입
     @Transactional
-    public ResponseEntity<?> signup(MemberRequestDto memberRequestDto) {
-        String memberEmail = memberRequestDto.getMemberEmail();
-        String memberPassword = memberRequestDto.getMemberPassword();
-        String passwordConfirm = memberRequestDto.getPasswordConfirm();
-        String memberName = memberRequestDto.getMemberName();
-        Date DOB = memberRequestDto.getDOB();
+    public ResponseEntity<?> signup(MemberRequestDto memberRequestDto){
 
-        if (memberRepository.existsByMemberEmail(memberEmail)) {
-            throw new RuntimeException("이미 가입되어 있는 유저입니다");
+        if(memberRepository.existsByMemberEmail(memberRequestDto.getMemberEmail())){
+            return new ResponseEntity<>("중복된 아이디입니다.",HttpStatus.BAD_REQUEST);
         }
-        if ( !memberPassword.equals( passwordConfirm )) {
-            throw new RuntimeException("비밀번호와 비밀번호확인이 일치하지 않습니다.");
+        if(!memberRequestDto.getMemberPassword().equals(memberRequestDto.getPasswordConfirm())){
+            return new ResponseEntity<>("비밀번호와 비밀번호확인이 일치하지 않습니다.",HttpStatus.BAD_REQUEST);
         }
 
-        String secret_password = passwordEncoder.encode( memberPassword );
+        Member member = Member.builder()
+                .memberEmail(memberRequestDto.getMemberEmail())
+                .memberPassword(passwordEncoder.encode(memberRequestDto.getMemberPassword()))
+                .memberName(memberRequestDto.getMemberName())
+                .DOB(memberRequestDto.getDOB())
+                .authority(Authority.ROLE_USER)
+                .build();
 
-        Member member = new Member( memberEmail, secret_password , memberName, DOB,  Authority.ROLE_USER );
         memberRepository.save(member);
 
         return new ResponseEntity<>(new MemberDto(member),HttpStatus.OK);
     }
 
+    @Transactional
+    //로그인
     public ResponseEntity<?> login(MemberRequestDto memberRequestDto) {
         // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken = memberRequestDto.toAuthentication();
@@ -83,10 +87,46 @@ public class MemberService {
         // 5. 토큰 발급
 //        return new ResponseEntity<>( ResponseDto.success(new MemberResponseDto(member) ), httpHeaders, HttpStatus.OK) ;
 
-
         return new ResponseEntity<>(new MemberDto(member), httpHeaders, HttpStatus.OK);
 
+    }
 
+    @Transactional
+    public ResponseEntity<?> reissue(TokenRequestDto tokenRequestDto) {
+        // 1. Refresh Token 검증
+        if (!tokenProvider.validateToken(tokenRequestDto.getRefreshToken())) {
+            throw new RuntimeException("Refresh Token 이 유효하지 않습니다.");
+        }
 
+        // 2. Access Token 에서 Member ID 가져오기
+        Authentication authentication = tokenProvider.getAuthentication(tokenRequestDto.getAccessToken());
+
+        // 3. 저장소에서 Member ID 를 기반으로 Refresh Token 값 가져옴
+        RefreshToken refreshToken = refreshTokenRepository.findByKey(authentication.getName())
+                .orElseThrow(() -> new RuntimeException("로그아웃 된 사용자입니다."));
+
+        // 4. Refresh Token 일치하는지 검사
+        if (!refreshToken.getValue().equals(tokenRequestDto.getRefreshToken())) {
+            throw new RuntimeException("토큰의 유저 정보가 일치하지 않습니다.");
+        }
+
+        // 5. 새로운 토큰 생성
+        TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
+
+        // 6. 저장소 정보 업데이트
+        RefreshToken newRefreshToken = refreshToken.updateValue(tokenDto.getRefreshToken());
+        refreshTokenRepository.save(newRefreshToken);
+
+        // 토큰 발급
+        return new ResponseEntity<>(tokenDto, HttpStatus.OK);
+    }
+    @Transactional
+    public ResponseEntity<?> userUpdate(MemberDetailsImpl memberDetails, MemberInfoRequestDto memberInfoRequestDto) {
+
+        Member member = memberDetails.getMember();
+        member.infoUpdate(memberInfoRequestDto);
+        memberRepository.save(member);
+
+        return new ResponseEntity<>("수정 되었습니다.", HttpStatus.OK);
     }
 }

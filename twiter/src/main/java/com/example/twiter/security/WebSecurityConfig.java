@@ -67,7 +67,8 @@ public class WebSecurityConfig{
                 // 로그인, 회원가입 API 는 토큰이 없는 상태에서 요청이 들어오기 때문에 permitAll 설정
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/auth/**")
+                .antMatchers("/api/auth/**").permitAll()
+                .antMatchers()
                 .authenticated()
                 .anyRequest()
                 .permitAll()
