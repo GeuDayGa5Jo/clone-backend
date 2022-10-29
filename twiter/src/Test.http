@@ -1,38 +1,52 @@
-POST http://localhost:8080/member/register
+###
+
+POST http://localhost:8080/member/signup
 Content-Type: application/json
 
 {
-  "username": "adamparker",
-  "nickname": "adampark",
-  "password": "bin12345"
+  "memberEmail": "adam2@gmail.com",
+    "memberName": "adam",
+    "memberPassword": "1234",
+  "passwordConfirm": "1234"
 }
 
-###
 
+###
 POST http://localhost:8080/member/login
 Content-Type: application/json
 
 {
-  "username": "adamparker",
-  "password": "bin12345"
+  "memberEmail": "adam2@gmail.com",
+  "memberPassword": "1234"
 }
 
 ###
 
 POST http://localhost:8080/auth/boards/create
 Content-Type: application/json
-Authorization:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZGFtcGFya2VyIiwiZXhwIjoxNjcwNDU0Mzg2LCJpYXQiOjE2NjY4NTQzODZ9.ANWfx11O1JL8lfWGZ52L9mr4ptTRvlrf4WxjXJBL8S8
+Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtQGdtYWlsLmNvbSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NjcwMjQzNzN9.9L_m3J6OlYHQhsMLYt-NodBohi64_BrjYViQFEyS3mtPTZcp1-lT8LvwJ4xyONoSSDlzcdG6ORjqSJKgbBldmg
 
 {
-  "boardContent": "어른이 되서 깨어납니다",
-  "boardTitle": "어제는 어릴때로 돌아가서"
+  "boardContent": "어른이 되서 깨어납니다"
 }
 
 
 ###
 
-GET http://localhost:8080/boards
+PUT http://localhost:8080/auth/boards/1/update
 Content-Type: application/json
+Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtMkBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MDI0ODY0fQ.fZuweleMu8Sb9VurZ6eYzfWu-UqPcBUXmJczu-kIoef-FuMW8RdzXqc-_I-urMNqaza-oHb40lb-fdwnfiZUBQ
+
+{
+  "boardContent": "어른이 되서 안해"
+}
+
+
+###
+GET http://localhost:8080/auth/boards/
+Content-Type: application/json
+Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtMkBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MDI1MTE0fQ.e9zUUxPQpcU9GiqTYRF5ETuRifa9bioR7KSUdF_eKrx_yUTVV8HnM-yrezkPOJ6z_Lo7L4eM6qv4osiDozDKpg
+
 
 
 ###
