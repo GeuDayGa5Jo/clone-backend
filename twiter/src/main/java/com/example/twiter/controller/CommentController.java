@@ -3,7 +3,6 @@ package com.example.twiter.controller;
 import com.example.twiter.dto.CommentReqDto;
 import com.example.twiter.dto.CommentUpdateReqDto;
 import com.example.twiter.dto.ResponseDto;
-import com.example.twiter.security.MemberDetails;
 import com.example.twiter.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
