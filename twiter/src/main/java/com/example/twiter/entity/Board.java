@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Entity
@@ -24,6 +25,10 @@ public class Board {
 
     @Column
     private boolean retweet;
+
+    @OneToMany(mappedBy = "board")
+    private List<Comment> commentList;
+
 
     public Board(BoardDto dto, Member member){
         this.member = member;

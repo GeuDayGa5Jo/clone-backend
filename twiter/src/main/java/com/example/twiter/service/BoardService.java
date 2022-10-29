@@ -30,6 +30,7 @@ public class BoardService {
         BoardDto boardDtos = new BoardDto();
         for (Board board : boards) {
             boardDtos.addBoard(new BoardDto(board));
+            //comment add
         }
 
 

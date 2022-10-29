@@ -17,6 +17,8 @@ public class MemberController {
     private final MemberService memberService;
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody MemberRequestDto memberRequestDto) {
+        System.out.println("someone came in");
+
         return memberService.signup(memberRequestDto);
     }
 

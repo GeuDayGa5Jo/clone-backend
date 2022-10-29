@@ -4,7 +4,7 @@ POST http://localhost:8080/member/signup
 Content-Type: application/json
 
 {
-  "memberEmail": "adam2@gmail.com",
+  "memberEmail": "adam3@gmail.com",
     "memberName": "adam",
     "memberPassword": "1234",
   "passwordConfirm": "1234"
@@ -51,12 +51,12 @@ Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtMkBnbWFpbC5jb20iLCJhdX
 
 ###
 
-POST http://localhost:8080/auth/boards/create/
+POST http://localhost:8080/auth/comments/create/
 Content-Type: application/json
-#Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZGFtcGFyayIsImV4cCI6MTY3MDQwMjk4OSwiaWF0IjoxNjY2ODAyOTg5fQ.re57NsDtpw5r60IhYNDV5jJkHlgD6thomEA6enYkJ_U
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtMkBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MDI5NDI0fQ.-clLZS2q4b3DNki1tn4G4cllks8iQQvVgn41sFwG0pC97ED0cnZiRvhE2sx_JM49ANHv8Vbm-pWCjtZFdeMc3A
 
 {
-  "boardContent": "testing"
+  "commentContent": "testing"
 }
 
 

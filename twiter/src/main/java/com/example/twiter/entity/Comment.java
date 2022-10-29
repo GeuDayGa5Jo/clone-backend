@@ -21,20 +21,18 @@ public class Comment extends Timestamp {
     @Column
     private String commentContent;
 
-    @Column
-    private Long boardId;
 
     @Column
     private String memberName;
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "boardId", nullable = false)
+    @JoinColumn(name = "board_id", nullable = false)
     private Board board;
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn( name = "memberId", nullable = false)
+    @JoinColumn( name = "member_id", nullable = false)
     private Member member;
 
     public Comment(CommentReqDto commentReqDto, Member member, Board board){
