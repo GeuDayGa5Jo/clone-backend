@@ -28,6 +28,9 @@ public class Comment extends Timestamp {
     @Column
     private Long boardId;
 
+    @Column
+    private Long memberId;
+
 
 
 
@@ -36,6 +39,7 @@ public class Comment extends Timestamp {
         this.commentContent = commentDto.getCommentContent();
         this.memberName = member.getMemberName();
         this.boardId = boardId;
+        this.memberId = member.getMemberId();
     }
 
     public void update(CommentDto commentDto) {

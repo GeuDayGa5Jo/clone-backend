@@ -39,7 +39,7 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
-    public Member(String memberEmail, String secret_password, String memberName, Date dob, Authority authority) {
+    public Member( String memberEmail, String secret_password, String memberName, Date dob, Authority authority) {
 
         this.memberEmail = memberEmail;
         this.memberPassword = secret_password;

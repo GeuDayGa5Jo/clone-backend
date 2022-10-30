@@ -22,12 +22,6 @@ public class BoardDto {
     List<Comment> comments;
 
 
-//    public BoardDto (Board board, List<Comment> commentsList){
-//        this.boardContent = board.getBoardContent();
-//        this.retweet = board.isRetweet();
-//        this.comments = commentsList;
-//
-//    }
     public BoardDto (Board board, List<Comment> commentsList,Member member){
         this.memberName = member.getMemberName();
         this.boardContent = board.getBoardContent();

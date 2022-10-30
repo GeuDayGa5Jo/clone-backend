@@ -26,7 +26,7 @@ public class Board {
     @Column
     private boolean retweet;
 
-    @OneToMany(mappedBy = "board")
+    @OneToMany
     private List<Comment> commentList;
 
 

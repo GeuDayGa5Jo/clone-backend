@@ -32,7 +32,7 @@ public class BoardService {
         ListResponseDto listDto = new ListResponseDto();
 
         for (Board board : boards) {
-            listDto.addBoard(new BoardDto(board, commentRepository.findCommentByBoard_BoardId(board.getBoardId()),board.getMember()));
+            listDto.addBoard(new BoardDto(board, commentRepository.findCommentByBoardId(board.getBoardId()),board.getMember()));
         }
 
 
@@ -81,7 +81,7 @@ public class BoardService {
         }
 
         boardRepository.delete(board.orElse(null));
-        commentRepository.deleteAllByBoard_BoardId(boardId);
+
 
         return new ResponseEntity<>("삭제가 완료 되었습니다",HttpStatus.OK);
 
