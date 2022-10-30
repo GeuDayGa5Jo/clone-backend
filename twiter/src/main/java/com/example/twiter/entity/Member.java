@@ -34,6 +34,9 @@ public class Member {
     private String memberPassword;
 
     @Column
+    private String bio;
+
+    @Column
     private Date DOB;
 
     @JsonIgnore

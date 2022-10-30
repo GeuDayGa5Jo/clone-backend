@@ -1,13 +1,17 @@
 package com.example.twiter.entity;
 
 
+import com.example.twiter.dto.CommentDto;
+import com.example.twiter.entity.util.Timestamp;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Getter
+@NoArgsConstructor
 @Entity
-public class Comment {
+public class Comment extends Timestamp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
@@ -16,8 +20,18 @@ public class Comment {
     private String commentContent;
 
     @Column
-    private Long boardId;
+    private String memberName;
 
     @Column
-    private String memberName;
+    private Long boardId;
+
+    public Comment(CommentDto commentDto, Member member, Long boardId){
+        this.commentContent = commentDto.getCommentContent();
+        this.memberName = member.getMemberName();
+        this.boardId = boardId;
+    }
+
+    public void update(CommentDto commentDto) {
+        this.commentContent = commentDto.getModifiedComment() != null ? commentDto.getModifiedComment() : this.commentContent;
+    }
 }
