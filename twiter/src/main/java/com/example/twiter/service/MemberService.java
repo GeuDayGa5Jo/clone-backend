@@ -38,16 +38,16 @@ public class MemberService {
     public ResponseEntity<?> signup(MemberRequestDto memberRequestDto) {
         String memberEmail = memberRequestDto.getMemberEmail();
         String memberPassword = memberRequestDto.getMemberPassword();
-        String passwordConfirm = memberRequestDto.getPasswordConfirm();
+//        String passwordConfirm = memberRequestDto.getPasswordConfirm();
         String memberName = memberRequestDto.getMemberName();
         Date DOB = memberRequestDto.getDOB();
 
         if (memberRepository.existsByMemberEmail(memberEmail)) {
             throw new RuntimeException("이미 가입되어 있는 유저입니다");
         }
-        if ( !memberPassword.equals( passwordConfirm )) {
-            throw new RuntimeException("비밀번호와 비밀번호확인이 일치하지 않습니다.");
-        }
+//        if ( !memberPassword.equals( passwordConfirm )) {
+//            throw new RuntimeException("비밀번호와 비밀번호확인이 일치하지 않습니다.");
+//        }
 
         String secret_password = passwordEncoder.encode( memberPassword );
 
@@ -60,12 +60,15 @@ public class MemberService {
     public ResponseEntity<?> login(MemberRequestDto memberRequestDto) {
         // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken = memberRequestDto.toAuthentication();
+        System.out.println("authenticationToken = " + authenticationToken);
 
         // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
         //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
         Member member = (Member) memberRepository.findByMemberEmail( memberRequestDto.getMemberEmail() ).orElse( null );
+        System.out.println("member = " + member);
+
         // 3. 인증 정보를 기반으로 JWT 토큰 생성
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
 
@@ -76,6 +79,7 @@ public class MemberService {
                 .build();
 
         refreshTokenRepository.save(refreshToken);
+        System.out.println("refreshToken = " + refreshToken);
 
         HttpHeaders httpHeaders= new HttpHeaders();
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER , JwtFilter.BEARER_PREFIX + tokenDto.getAccessToken());

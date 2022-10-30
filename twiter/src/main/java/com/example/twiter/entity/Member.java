@@ -4,6 +4,7 @@ import com.example.twiter.entity.util.Timestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -31,13 +32,14 @@ public class Member {
     private String bio;
 
     @Column
+    @DateTimeFormat(pattern="dd/MM/yyyy")
     private Date DOB;
 
     @JsonIgnore
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
-    public Member(String memberEmail, String secret_password, String memberName, Date dob, Authority authority) {
+    public Member( String memberEmail, String secret_password, String memberName, Date dob, Authority authority) {
 
         this.memberEmail = memberEmail;
         this.memberPassword = secret_password;

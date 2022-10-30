@@ -25,7 +25,7 @@ public class TokenProvider {
 
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "bearer";
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;            // 30분
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 300;            // 300분
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;  // 7일
 
     private final MemberRepository memberRepository;
@@ -81,9 +81,9 @@ public class TokenProvider {
 //                        .map(SimpleGrantedAuthority::new)
 //                        .collect(Collectors.toList());
 
-        String memberEmail = claims.getSubject();
-        Member member = (Member) memberRepository.findByMemberEmail( memberEmail )
-                .orElseThrow(() -> new UsernameNotFoundException("Can't find " + memberEmail ));;
+        String email = claims.getSubject();
+        Member member = memberRepository.findByMemberEmail( email )
+                .orElseThrow(() -> new UsernameNotFoundException("Can't find " + email ));;
         MemberDetailsImpl userDetails = new MemberDetailsImpl(member);
 
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

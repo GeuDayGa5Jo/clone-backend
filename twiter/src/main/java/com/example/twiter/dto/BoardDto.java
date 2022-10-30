@@ -1,6 +1,8 @@
 package com.example.twiter.dto;
 
 import com.example.twiter.entity.Board;
+import com.example.twiter.entity.Comment;
+import com.example.twiter.entity.Member;
 import lombok.*;
 
 import java.util.LinkedList;
@@ -15,15 +17,17 @@ public class BoardDto {
     private String boardContent;
     private boolean retweet;
 
-    List<BoardDto> boardDtos = new LinkedList<>();
+    private String memberName;
 
-    public BoardDto (Board board){
+    List<Comment> comments;
+
+
+    public BoardDto (Board board, List<Comment> commentsList,Member member){
+        this.memberName = member.getMemberName();
         this.boardContent = board.getBoardContent();
         this.retweet = board.isRetweet();
+        this.comments = commentsList;
     }
 
-    public void addBoard(BoardDto boardDto){
-        boardDtos.add(boardDto);
-    }
 
 }

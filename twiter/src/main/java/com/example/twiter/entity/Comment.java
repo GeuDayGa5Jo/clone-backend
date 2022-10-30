@@ -5,6 +5,8 @@ import com.example.twiter.dto.CommentDto;
 import com.example.twiter.entity.util.Timestamp;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -19,16 +21,25 @@ public class Comment extends Timestamp {
     @Column
     private String commentContent;
 
+
     @Column
     private String memberName;
 
     @Column
     private Long boardId;
 
+    @Column
+    private Long memberId;
+
+
+
+
+
     public Comment(CommentDto commentDto, Member member, Long boardId){
         this.commentContent = commentDto.getCommentContent();
         this.memberName = member.getMemberName();
         this.boardId = boardId;
+        this.memberId = member.getMemberId();
     }
 
     public void update(CommentDto commentDto) {

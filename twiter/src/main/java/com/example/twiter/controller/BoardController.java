@@ -31,7 +31,9 @@ public class BoardController {
 
     @PutMapping("{boardId}/update")
     public ResponseEntity<?> updateBoard(@RequestBody BoardDto dto, @PathVariable Long boardId , @AuthenticationPrincipal MemberDetailsImpl memberDetails){
-
+        System.out.println("dto = " + dto);
+        System.out.println("boardId = " + boardId);
+        System.out.println("memberDetails = " + memberDetails);
         return boardService.updateBoard(dto,boardId, memberDetails.getMember());
 
     }

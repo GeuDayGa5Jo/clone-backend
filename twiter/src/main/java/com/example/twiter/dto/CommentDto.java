@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 public class CommentDto {
     private String commentContent;
     private String modifiedComment;
-    private String membername;
+    private String memberName;
     private Board board;
 
 }

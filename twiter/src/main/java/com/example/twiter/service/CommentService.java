@@ -26,6 +26,10 @@ public class CommentService {
     public ResponseEntity<?> createComment(Member member, CommentDto commentDto, Long boardId) {
         Board board = boardRepository.findById(boardId).orElseThrow(()->new RuntimeException("게시글이 존재하지 않습니다"));
         Comment comment = new Comment(commentDto, member, boardId);
+        System.out.println(comment);
+
+
+
         commentRepository.save(comment);
         return new ResponseEntity<>(comment, HttpStatus.CREATED);
     }
