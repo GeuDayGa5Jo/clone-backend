@@ -4,8 +4,8 @@ POST http://localhost:8080/member/signup
 Content-Type: application/json
 
 {
-  "memberEmail": "adam3@gmail.com",
-    "memberName": "adam",
+  "memberEmail": "dan@gmail.com",
+    "memberName": "dan",
     "memberPassword": "1234",
   "passwordConfirm": "1234"
 }
@@ -16,7 +16,7 @@ POST http://localhost:8080/member/login
 Content-Type: application/json
 
 {
-  "memberEmail": "adam2@gmail.com",
+  "memberEmail": "dan@gmail.com",
   "memberPassword": "1234"
 }
 
@@ -24,28 +24,28 @@ Content-Type: application/json
 
 POST http://localhost:8080/auth/boards/create
 Content-Type: application/json
-Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtQGdtYWlsLmNvbSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NjcwMjQzNzN9.9L_m3J6OlYHQhsMLYt-NodBohi64_BrjYViQFEyS3mtPTZcp1-lT8LvwJ4xyONoSSDlzcdG6ORjqSJKgbBldmg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW5AZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY2NzA3ODk3MX0.PApscKygAIt59iLr9ZvZ2M-yfgqmLtxuDoKpbZVdyvkBAo_Ogs0l3cS3zuobtKAn3TcKCxco5unhdX-jOUWPsw
 
 {
-  "boardContent": "어른이 되서 깨어납니다"
+  "boardContent": "졸려려려ㅕㄹ"
 }
 
 
 ###
 
-PUT http://localhost:8080/auth/boards/1/update
+PUT http://localhost:8080/auth/boards/3/update
 Content-Type: application/json
-Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtMkBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MDI0ODY0fQ.fZuweleMu8Sb9VurZ6eYzfWu-UqPcBUXmJczu-kIoef-FuMW8RdzXqc-_I-urMNqaza-oHb40lb-fdwnfiZUBQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW5AZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY2NzA3ODk3MX0.PApscKygAIt59iLr9ZvZ2M-yfgqmLtxuDoKpbZVdyvkBAo_Ogs0l3cS3zuobtKAn3TcKCxco5unhdX-jOUWPsw
 
 {
-  "boardContent": "어른이 되서 안해"
+  "boardContent": "자라"
 }
 
 
 ###
 GET http://localhost:8080/auth/boards/
 Content-Type: application/json
-Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtMkBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MDI1MTE0fQ.e9zUUxPQpcU9GiqTYRF5ETuRifa9bioR7KSUdF_eKrx_yUTVV8HnM-yrezkPOJ6z_Lo7L4eM6qv4osiDozDKpg
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtMkBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MDc3MjQ0fQ.jo3YIJ-qHGKd2ms7Es5Tj_Sl4gqjVDaKghMojDxAMhof842nJtxAtV8YurnI3IzXGzwRtoI0IC9yzFCKFr1JyQ
 
 
 
@@ -53,9 +53,10 @@ Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtMkBnbWFpbC5jb20iLCJhdX
 
 POST http://localhost:8080/auth/comments/create/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtMkBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MDI5NDI0fQ.-clLZS2q4b3DNki1tn4G4cllks8iQQvVgn41sFwG0pC97ED0cnZiRvhE2sx_JM49ANHv8Vbm-pWCjtZFdeMc3A
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW5AZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY2NzA3ODk3MX0.PApscKygAIt59iLr9ZvZ2M-yfgqmLtxuDoKpbZVdyvkBAo_Ogs0l3cS3zuobtKAn3TcKCxco5unhdX-jOUWPsw
 
 {
+  "board_id": 6,
   "commentContent": "testing"
 }
 
@@ -63,25 +64,16 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtMkBnbWFpbC5jb20iLCJhd
 
 ###
 
-GET http://localhost:8080/boards/17
+GET http://localhost:8080/boards/5
 Content-Type: application/json
-Authorization:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoaWhpNCIsImV4cCI6MTY3MDM4OTUyOSwiaWF0IjoxNjY2Nzg5NTI5fQ.gA1nD0_QRav-K0MwzqenZ3OxJTE7abOCxCoH53DWOBA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW5AZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY2NzEyMjIwNX0.GM-DWBPs6Bmui0VbfgLWFrmQKpYnuZqGlmtFmGsOdbmWw6_B2iwGf4NuM_BAw6vOAayXwRifMzH7rpiO0mPbRg
 
 ###
 
-PUT http://localhost:8080/auth/boards/modify/4
+
+DELETE http://localhost:8080/auth/boards/6/delete
 Content-Type: application/json
-Authorization:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZGFtcGFya2VyIiwiZXhwIjoxNjcwNDU0Mzg2LCJpYXQiOjE2NjY4NTQzODZ9.ANWfx11O1JL8lfWGZ52L9mr4ptTRvlrf4WxjXJBL8S8
-
-{
-  "boardTitle": "뽈낑뽈깡 스러운꿈이였바봅니다..."
-}
-
-###
-
-DELETE http://localhost:8080/auth/boards/delete/4
-Content-Type: application/json
-Authorization:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZGFtcGFya2VyIiwiZXhwIjoxNjcwNDU0Mzg2LCJpYXQiOjE2NjY4NTQzODZ9.ANWfx11O1JL8lfWGZ52L9mr4ptTRvlrf4WxjXJBL8S8
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW5AZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY2NzEyMjIwNX0.GM-DWBPs6Bmui0VbfgLWFrmQKpYnuZqGlmtFmGsOdbmWw6_B2iwGf4NuM_BAw6vOAayXwRifMzH7rpiO0mPbRg
 
 
 ###

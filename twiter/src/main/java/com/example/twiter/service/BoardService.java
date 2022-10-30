@@ -1,10 +1,13 @@
 package com.example.twiter.service;
 
 import com.example.twiter.dto.BoardDto;
+import com.example.twiter.dto.ListResponseDto;
 import com.example.twiter.entity.Board;
+import com.example.twiter.entity.Comment;
 import com.example.twiter.entity.Member;
 import com.example.twiter.exceptionHandler.RestApiExceptionHandler;
 import com.example.twiter.repository.BoardRepository;
+import com.example.twiter.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,24 +22,23 @@ import java.util.Optional;
 public class BoardService {
 
     private final BoardRepository boardRepository;
-
+    private final CommentRepository commentRepository;
     private final RestApiExceptionHandler exceptionHandler;
 
     @Transactional
     public ResponseEntity<?> getBoards() {
 
         List<Board> boards = boardRepository.findAll();
+        ListResponseDto listDto = new ListResponseDto();
 
-        BoardDto boardDtos = new BoardDto();
         for (Board board : boards) {
-            boardDtos.addBoard(new BoardDto(board));
-            //comment add
+            listDto.addBoard(new BoardDto(board, commentRepository.findCommentByBoard_BoardId(board.getBoardId()),board.getMember()));
         }
 
 
 
 
-        return new ResponseEntity<>( boardDtos, HttpStatus.OK);
+        return new ResponseEntity<>( listDto, HttpStatus.OK);
     }
 
     @Transactional
@@ -79,6 +81,7 @@ public class BoardService {
         }
 
         boardRepository.delete(board.orElse(null));
+        commentRepository.deleteAllByBoard_BoardId(boardId);
 
         return new ResponseEntity<>("삭제가 완료 되었습니다",HttpStatus.OK);
 

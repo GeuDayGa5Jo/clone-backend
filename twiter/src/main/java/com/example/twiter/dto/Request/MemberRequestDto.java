@@ -14,7 +14,7 @@ public class MemberRequestDto {
     private String memberEmail;
     private String memberName;
     private String memberPassword;
-    private String passwordConfirm;
+//    private String passwordConfirm;
     private Date DOB;
 
 

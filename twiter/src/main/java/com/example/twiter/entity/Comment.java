@@ -7,6 +7,8 @@ import com.example.twiter.entity.util.Timestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -26,12 +28,13 @@ public class Comment extends Timestamp {
     private String memberName;
 
     @JsonIgnore
-    @ManyToOne
+    @OnDelete(action= OnDeleteAction.CASCADE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "board_id", nullable = false)
     private Board board;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn( name = "member_id", nullable = false)
     private Member member;
 
