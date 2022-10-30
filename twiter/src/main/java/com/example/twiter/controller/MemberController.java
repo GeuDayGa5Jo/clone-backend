@@ -1,7 +1,6 @@
 package com.example.twiter.controller;
 
 import com.example.twiter.dto.Request.MemberRequestDto;
-import com.example.twiter.dto.ResponseDto;
 import com.example.twiter.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

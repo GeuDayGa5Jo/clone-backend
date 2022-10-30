@@ -1,10 +1,8 @@
 package com.example.twiter.entity;
 
 
-import com.example.twiter.dto.CommentReqDto;
-import com.example.twiter.dto.CommentUpdateReqDto;
+import com.example.twiter.dto.CommentDto;
 import com.example.twiter.entity.util.Timestamp;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
@@ -27,25 +25,20 @@ public class Comment extends Timestamp {
     @Column
     private String memberName;
 
-    @JsonIgnore
-    @OnDelete(action= OnDeleteAction.CASCADE)
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "board_id", nullable = false)
-    private Board board;
+    @Column
+    private Long boardId;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn( name = "member_id", nullable = false)
-    private Member member;
 
-    public Comment(CommentReqDto commentReqDto, Member member, Board board){
-        this.commentContent = commentReqDto.getCommentContent();
+
+
+
+    public Comment(CommentDto commentDto, Member member, Long boardId){
+        this.commentContent = commentDto.getCommentContent();
         this.memberName = member.getMemberName();
-        this.member = member;
-        this.board = board;
+        this.boardId = boardId;
     }
 
-    public void update(CommentUpdateReqDto commentUpdateReqDto) {
-        this.commentContent = commentUpdateReqDto.getCommentContent();
+    public void update(CommentDto commentDto) {
+        this.commentContent = commentDto.getModifiedComment() != null ? commentDto.getModifiedComment() : this.commentContent;
     }
 }
