@@ -2,16 +2,19 @@ package com.example.twiter.entity;
 
 import com.example.twiter.entity.util.Timestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
 @Entity
+@AllArgsConstructor
 public class Member {
 
     @Id
@@ -30,6 +33,14 @@ public class Member {
 
     @Column
     private String bio;
+
+
+//    @OneToMany(mappedBy = "member")
+//    private List<Board> boardList;
+
+//    @Column
+//    @OneToMany(mappedBy = "member")
+//    private List<Comment> commentList;
 
     @Column
     @DateTimeFormat(pattern="dd/MM/yyyy")

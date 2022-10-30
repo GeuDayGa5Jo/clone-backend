@@ -1,16 +1,20 @@
 package com.example.twiter.entity;
 
 import com.example.twiter.dto.BoardDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 public class Board {
 
     @Id
@@ -21,13 +25,14 @@ public class Board {
     private String boardContent;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="member_id")
     private Member member;
 
     @Column
     private boolean retweet;
 
-    @OneToMany
-    private List<Comment> commentList;
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
+    private List<Comment> commentList = new ArrayList<>();
 
 
     public Board(BoardDto dto, Member member){

@@ -14,19 +14,28 @@ import java.util.List;
 @AllArgsConstructor
 public class BoardDto {
 
+    private Long boardId;
     private String boardContent;
     private boolean retweet;
 
     private String memberName;
 
-    List<Comment> comments;
+    List<CommentDto> comments;
 
 
-    public BoardDto (Board board, List<Comment> commentsList,Member member){
-        this.memberName = member.getMemberName();
+    public BoardDto (Board board, List<CommentDto> commentListDto){
+        this.boardId = board.getBoardId();
+        this.memberName = board.getMember().getMemberName();
         this.boardContent = board.getBoardContent();
         this.retweet = board.isRetweet();
-        this.comments = commentsList;
+        this.comments = commentListDto;
+    }
+    public BoardDto (Board board){
+        this.boardId = board.getBoardId();
+        this.memberName = board.getMember().getMemberName();
+        this.boardContent = board.getBoardContent();
+        this.retweet = board.isRetweet();
+
     }
 
 

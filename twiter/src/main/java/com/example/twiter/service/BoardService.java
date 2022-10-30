@@ -1,6 +1,8 @@
 package com.example.twiter.service;
 
 import com.example.twiter.dto.BoardDto;
+import com.example.twiter.dto.CommentDto;
+import com.example.twiter.dto.CommentListDto;
 import com.example.twiter.dto.ListResponseDto;
 import com.example.twiter.entity.Board;
 import com.example.twiter.entity.Comment;
@@ -14,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,24 +32,25 @@ public class BoardService {
     public ResponseEntity<?> getBoards() {
 
         List<Board> boards = boardRepository.findAll();
-        ListResponseDto listDto = new ListResponseDto();
+        List<BoardDto> boardList = new ArrayList<>();
+        List<Comment> comments = commentRepository.findAll();
+        List<CommentDto> commentDto = new ArrayList<>();
 
         for (Board board : boards) {
-            listDto.addBoard(new BoardDto(board, commentRepository.findCommentByBoardId(board.getBoardId()),board.getMember()));
+            boardList.add(new BoardDto(board));
         }
 
 
-
-
-        return new ResponseEntity<>( listDto, HttpStatus.OK);
+        return new ResponseEntity<>( boardList, HttpStatus.OK);
     }
 
     @Transactional
     public ResponseEntity<?> createBoard(BoardDto dto, Member member) {
-
+        System.out.println("member = " + member.getMemberId());
         Board saveBoard = new Board(dto, member);
+        boardRepository.save(saveBoard);
 
-        return new ResponseEntity<>(boardRepository.save(saveBoard), HttpStatus.OK);
+        return new ResponseEntity<>("성공적으로 생성 되었습니다(보드 추가시)", HttpStatus.OK);
 
     }
 
@@ -64,7 +68,7 @@ public class BoardService {
 
         board.update(dto);
 
-        return new ResponseEntity<>(boardRepository.findById(boardId),HttpStatus.OK);
+        return new ResponseEntity<>("수정이 완료 되었습니다",HttpStatus.OK);
 
     }
 
@@ -84,6 +88,25 @@ public class BoardService {
 
 
         return new ResponseEntity<>("삭제가 완료 되었습니다",HttpStatus.OK);
+
+    }
+
+    @Transactional
+    public ResponseEntity<?> getBoard(Long boardId) {
+
+        Board board = boardRepository.findById(boardId).orElseThrow(()-> new IllegalArgumentException("보드가 존재하지 않습니다"));
+        List <CommentDto> commentList = new ArrayList<>();
+
+        List<Comment> comments = commentRepository.findCommentByBoard_BoardId(boardId);
+        for (Comment comment : comments) {
+            CommentDto dto = new CommentDto(comment);
+            commentList.add(dto);
+        }
+
+        BoardDto dto = new BoardDto(board,commentList);
+
+
+        return new ResponseEntity<>(dto,HttpStatus.OK);
 
     }
 }
