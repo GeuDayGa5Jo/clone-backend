@@ -4,7 +4,7 @@ POST http://localhost:8080/member/signup
 Content-Type: application/json
 
 {
-  "memberEmail": "dan@gmail.com",
+  "memberEmail": "dan1@gmail.com",
     "memberName": "dan",
     "memberPassword": "1234",
   "passwordConfirm": "1234"
@@ -16,7 +16,7 @@ POST http://localhost:8080/member/login
 Content-Type: application/json
 
 {
-  "memberEmail": "dan@gmail.com",
+  "memberEmail": "dan1@gmail.com",
   "memberPassword": "1234"
 }
 
@@ -98,4 +98,10 @@ GET http://localhost:8080/auth/comments
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW5AZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY2NzE3ODc0OH0.3NSRiMqKrSJZvwJIkASvWlcQOCl40Kw46-uMJowHYle_h6WAA1VDgfmwHYzJCxrns8O146h20S0-ACMnZUfGqA
 
+
+###
+
+POST http://localhost:8080/auth/3/heart
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xQGdtYWlsLmNvbSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NjcxODUxMDl9.jmXO1Yga6Jgu0AdzqRbS1ooAAYso8h-Mpb-Vqg0g9TnzE3ocfmcJrRBWyT8-xm5xvTueO4ycuN9YsEzAMDcGEg
 
