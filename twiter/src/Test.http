@@ -24,7 +24,7 @@ Content-Type: application/json
 
 POST http://localhost:8080/auth/boards/create
 Content-Type: application/json
-Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtQGdtYWlsLmNvbSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NjcwMjQzNzN9.9L_m3J6OlYHQhsMLYt-NodBohi64_BrjYViQFEyS3mtPTZcp1-lT8LvwJ4xyONoSSDlzcdG6ORjqSJKgbBldmg
+Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtMkBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MTIzOTA3fQ.cM3BhPGL99sTG78wwM6d0vIecba2EbiT1bM05lk18o6HDEe4LkfjgI076P3TjbcAo7uoYYqRivyq6pOhJlnSLg
 
 {
   "boardContent": "어른이 되서 깨어납니다"
@@ -35,7 +35,7 @@ Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtQGdtYWlsLmNvbSIsImF1dG
 
 PUT http://localhost:8080/auth/boards/1/update
 Content-Type: application/json
-Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtMkBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MDI0ODY0fQ.fZuweleMu8Sb9VurZ6eYzfWu-UqPcBUXmJczu-kIoef-FuMW8RdzXqc-_I-urMNqaza-oHb40lb-fdwnfiZUBQ
+Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtMkBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MTIzOTA3fQ.cM3BhPGL99sTG78wwM6d0vIecba2EbiT1bM05lk18o6HDEe4LkfjgI076P3TjbcAo7uoYYqRivyq6pOhJlnSLg
 
 {
   "boardContent": "어른이 되서 안해"
@@ -45,7 +45,7 @@ Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtMkBnbWFpbC5jb20iLCJhdX
 ###
 GET http://localhost:8080/auth/boards/
 Content-Type: application/json
-Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtMkBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MDI1MTE0fQ.e9zUUxPQpcU9GiqTYRF5ETuRifa9bioR7KSUdF_eKrx_yUTVV8HnM-yrezkPOJ6z_Lo7L4eM6qv4osiDozDKpg
+Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtMkBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MTIzNzM2fQ.yKJjkTlBHQ28lPV2WhVXJ1ppsClbC1MYMo3omj41SAHybu4L1JFEc34SAbRxIFsxvBWwEhnAXWF2auxbTfq8Dg
 
 
 
@@ -87,20 +87,20 @@ Authorization:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZGFtcGFya2VyIiwiZXhwIjoxNjcwNDU0M
 ###
 
 
-POST http://localhost:8080/auth/comments/5/create
+POST http://localhost:8080/auth/comments/2/create
 Content-Type: application/json
-Authorization:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZGFtcGFya2VyIiwiZXhwIjoxNjcwNDU0Mzg2LCJpYXQiOjE2NjY4NTQzODZ9.ANWfx11O1JL8lfWGZ52L9mr4ptTRvlrf4WxjXJBL8S8
+Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtMkBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MTI1ODU2fQ.bQvzdjZK3FCNkfkaE1RJXNqIZFEegvV8rK19nI_er-n_K4WgXnktAxgHSY6ocvPvReUObRaqOoWbDQJi6AWqzg
 
 {
-  "comment": "오...귀한 뽈깡뽈낑을...축하드립니다 뽈깡!"
+  "commentContent": "오...귀한 뽈깡뽈낑을...축하드립니다 뽈깡!"
 }
 
 ###
 
 
-PUT http://localhost:8080/auth/comments/1/update
+PUT http://localhost:8080/auth/comments/6/update
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZGFtcGFya2VyIiwiZXhwIjoxNjcwNDU0Mzg2LCJpYXQiOjE2NjY4NTQzODZ9.ANWfx11O1JL8lfWGZ52L9mr4ptTRvlrf4WxjXJBL8S8
+Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtMkBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MTI1ODU2fQ.bQvzdjZK3FCNkfkaE1RJXNqIZFEegvV8rK19nI_er-n_K4WgXnktAxgHSY6ocvPvReUObRaqOoWbDQJi6AWqzg
 
 {
   "modifiedComment": "hihihihii"
@@ -109,9 +109,15 @@ Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZGFtcGFya2VyIiwiZXhwIjoxNjcwNDU0
 ###
 
 
-DELETE http://localhost:8080/auth/boards/delete/5
+DELETE http://localhost:8080/auth/comments/3/delete
 Content-Type: application/json
-Authorization:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZGFtcGFya2VyIiwiZXhwIjoxNjcwNDU0Mzg2LCJpYXQiOjE2NjY4NTQzODZ9.ANWfx11O1JL8lfWGZ52L9mr4ptTRvlrf4WxjXJBL8S8
+Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtMkBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MTI1ODU2fQ.bQvzdjZK3FCNkfkaE1RJXNqIZFEegvV8rK19nI_er-n_K4WgXnktAxgHSY6ocvPvReUObRaqOoWbDQJi6AWqzg
+
+###
+
+GET http://localhost:8080/auth/comments
+Content-Type: application/json
+Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtMkBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MTI1ODU2fQ.bQvzdjZK3FCNkfkaE1RJXNqIZFEegvV8rK19nI_er-n_K4WgXnktAxgHSY6ocvPvReUObRaqOoWbDQJi6AWqzg
 
 ###
 
