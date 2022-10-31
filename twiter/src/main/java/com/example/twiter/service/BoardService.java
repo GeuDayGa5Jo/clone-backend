@@ -3,6 +3,7 @@ package com.example.twiter.service;
 import com.example.twiter.dto.BoardDto;
 import com.example.twiter.entity.Board;
 import com.example.twiter.entity.Member;
+import com.example.twiter.entity.util.S3Uploader;
 import com.example.twiter.exceptionHandler.RestApiExceptionHandler;
 import com.example.twiter.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +23,8 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     private final RestApiExceptionHandler exceptionHandler;
+
+    private final S3Uploader s3Uploader;
 
     @Transactional
     public ResponseEntity<?> getBoards() {
@@ -38,17 +42,30 @@ public class BoardService {
         return new ResponseEntity<>( boardDtos, HttpStatus.OK);
     }
 
+
     @Transactional
-    public ResponseEntity<?> createBoard(BoardDto dto, Member member) {
+    public ResponseEntity<?> createBoard(BoardDto dto, Member member) throws IOException {
 
-        Board saveBoard = new Board(dto, member);
+        if(dto.getImageFile()==null){
 
-        return new ResponseEntity<>(boardRepository.save(saveBoard), HttpStatus.OK);
+            Board saveBoard = new Board(dto, member);
+
+            return new ResponseEntity<>(boardRepository.save(saveBoard), HttpStatus.OK);
+        }
+
+        Board board = Board.builder()
+                .boardContent(dto.getBoardContent())
+                .member(member)
+                .retweet(dto.isRetweet())
+                .imageFile(s3Uploader.upload(dto.getImageFile(), "member"))
+                .build();
+
+        return new ResponseEntity<>(boardRepository.save(board), HttpStatus.OK);
 
     }
 
     @Transactional
-    public ResponseEntity<?> updateBoard(BoardDto dto, Long boardId, Member member) {
+    public ResponseEntity<?> updateBoard(BoardDto dto, Long boardId, Member member) throws IOException {
 
         Board board = boardRepository.findById(boardId).orElse(null);
 
@@ -59,7 +76,18 @@ public class BoardService {
             return exceptionHandler.handleApiRequestException(new IllegalArgumentException("작성자가 다릅니다"));
         }
 
-        board.update(dto);
+        if(dto.getImageFile()==null) {
+            board.update(dto);
+        }
+        else{
+
+            int sliceNum = board.getImageFile().lastIndexOf("/",board.getImageFile().lastIndexOf("/")-1);
+            s3Uploader.deleteFile(board.getImageFile().substring(sliceNum+1));
+
+
+            board.update(dto, s3Uploader.upload(dto.getImageFile(), "member"));
+
+        }
 
         return new ResponseEntity<>(boardRepository.findById(boardId),HttpStatus.OK);
 
@@ -83,3 +111,4 @@ public class BoardService {
 
     }
 }
+

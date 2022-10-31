@@ -24,7 +24,7 @@ Content-Type: application/json
 
 POST http://localhost:8080/auth/boards/create
 Content-Type: application/json
-Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtMkBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MTIzOTA3fQ.cM3BhPGL99sTG78wwM6d0vIecba2EbiT1bM05lk18o6HDEe4LkfjgI076P3TjbcAo7uoYYqRivyq6pOhJlnSLg
+Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtMkBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MTI5OTYyfQ.sY2B8qZ6wxZbvi7V0Q9bUkybCafVrAzcFwMDwYqz5c-4aGhB0zHheydWMLE6bYjK5yfbttgQ0djlNiAsWwkNuA
 
 {
   "boardContent": "어른이 되서 깨어납니다"

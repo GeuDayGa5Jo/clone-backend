@@ -2,6 +2,7 @@ package com.example.twiter.dto;
 
 import com.example.twiter.entity.Board;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -14,6 +15,8 @@ public class BoardDto {
 
     private String boardContent;
     private boolean retweet;
+
+    private MultipartFile imageFile;
 
     List<BoardDto> boardDtos = new LinkedList<>();
 

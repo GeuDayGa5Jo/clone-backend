@@ -1,4 +1,4 @@
-package com.example.twiter.dto;
+package com.example.twiter.dto.Response;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,6 +1,7 @@
 package com.example.twiter.service;
 
 import com.example.twiter.dto.*;
+import com.example.twiter.dto.Response.CommentResDto;
 import com.example.twiter.entity.Board;
 import com.example.twiter.entity.Comment;
 import com.example.twiter.entity.Member;
