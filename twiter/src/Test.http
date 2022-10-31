@@ -24,11 +24,11 @@ Content-Type: application/json
 
 POST http://localhost:8080/auth/boards/create
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xQGdtYWlsLmNvbSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NjcxODcyMzR9.pzFdImpSzQpAqR21Z4YHjaAM0r91x29O20XMw66ICx2KjQnvXY6051wvLup3NwewVy4sCGWbnN6CgoROCmTyqw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xQGdtYWlsLmNvbSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NjcyMTQ2NDh9.g9HzS-kwgQ6wsAVlD220-7WPp0QuIQ1FsJeFsyaiMgCfLXi1b692MAyUtEv_auoIUuwRQGXQc_lRfzLP76TuEw
 
 
 {
-  "boardContent": "this is going second."
+  "boardContent": "this second."
 }
 
 

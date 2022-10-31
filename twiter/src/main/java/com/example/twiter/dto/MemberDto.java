@@ -19,10 +19,14 @@ public class MemberDto {
     private Authority authority;
 
     public MemberDto(Member member){
+
         this.memberId = member.getMemberId();
         this.memberEmail = member.getMemberEmail();
-
+        this.memberName = member.getMemberName();
+        this.DOB = member.getDOB();
+        this.authority = member.getAuthority();
     }
+
 
 
 }
