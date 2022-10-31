@@ -1,7 +1,6 @@
 package com.example.twiter.entity;
 
-import com.example.twiter.dto.Request.MemberInfoRequestDto;
-import com.example.twiter.entity.util.Timestamp;
+import com.example.twiter.dto.MemberDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 
@@ -69,9 +68,9 @@ public class Member {
 
     }
 
-    public void infoUpdate(MemberInfoRequestDto memberInfoRequestDto) {
-        this.memberName = memberInfoRequestDto.getMemberName();
-        this.DOB = memberInfoRequestDto.getDOB();
+    public void infoUpdate(MemberDto memberDto) {
+        this.memberName = memberDto.getMemberName();
+        this.DOB = memberDto.getDOB();
 
     }
 }

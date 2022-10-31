@@ -1,5 +1,6 @@
 package com.example.twiter.controller;
 
+import com.example.twiter.dto.MemberDto;
 import com.example.twiter.dto.Request.MemberRequestDto;
 import com.example.twiter.security.MemberDetailsImpl;
 import com.example.twiter.service.MemberService;
@@ -15,25 +16,18 @@ public class MemberController {
     private final MemberService memberService;
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody MemberRequestDto memberRequestDto) {
-        System.out.println("memberRequestDto.getMemberPassword() = " + memberRequestDto.getMemberPassword());
-        System.out.println("memberRequestDto.getMemberEmail() = " + memberRequestDto.getMemberEmail());
-        System.out.println("memberRequestDto = " + memberRequestDto.getDOB());
         return memberService.signup(memberRequestDto);
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody MemberRequestDto memberRequestDto) {
-        System.out.println("memberRequestDto.getMemberEmail() login= " + memberRequestDto.getMemberEmail());
-        
         return memberService.login(memberRequestDto);
     }
 
-
-    @GetMapping("/mypage")
-    public ResponseEntity<?> myPage(@AuthenticationPrincipal MemberDetailsImpl memberDetails){
-        return memberService.myPage(memberDetails.getMember());
+    @PutMapping("/update")
+    public ResponseEntity<?> infoUpdate(@RequestBody MemberDto memberDto, MemberDetailsImpl memberDetails){
+        return memberService.userUpdate(memberDetails,memberDto);
     }
-
 
 
 }

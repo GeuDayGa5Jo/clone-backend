@@ -2,8 +2,6 @@ package com.example.twiter.service;
 
 import com.example.twiter.dto.BoardDto;
 import com.example.twiter.dto.CommentDto;
-import com.example.twiter.dto.CommentListDto;
-import com.example.twiter.dto.ListResponseDto;
 import com.example.twiter.entity.Board;
 import com.example.twiter.entity.Comment;
 import com.example.twiter.entity.Member;
@@ -12,6 +10,9 @@ import com.example.twiter.exceptionHandler.RestApiExceptionHandler;
 import com.example.twiter.repository.BoardRepository;
 import com.example.twiter.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -143,5 +144,14 @@ public class BoardService {
         return new ResponseEntity<>(dto,HttpStatus.OK);
 
     }
+
+    @Transactional
+    public ResponseEntity<?> getBoardInfiniteScroll(int page,int size,String sortBy,boolean isAsc) {
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return new ResponseEntity<>(boardRepository.findAllByOrderByBoardId(pageable),HttpStatus.OK);
+    }
 }
+
 

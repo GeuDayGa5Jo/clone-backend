@@ -23,24 +23,25 @@ public class BoardController {
 
     }
 
-    @GetMapping("{boardId}")
-    public ResponseEntity<?> getBoard(@PathVariable Long boardId){
-
-        return boardService.getBoard(boardId);
-
+    @GetMapping("infinities")
+    public ResponseEntity<?> getBoardInfinite(
+            @RequestParam("page") Integer page,
+            @RequestParam("size") Integer size,
+            @RequestParam("sortBy") String sortBy,
+            @RequestParam("isAsc") boolean isAsc) {
+        int pageTemp = page - 1;
+        return boardService.getBoardInfiniteScroll(pageTemp, size, sortBy, isAsc);
     }
-
 
     @PostMapping("create")
     public ResponseEntity<?> createBoard(@ModelAttribute BoardDto dto , @AuthenticationPrincipal MemberDetailsImpl memberDetails) throws IOException {
-        System.out.println("dto = " + dto);
+
         return boardService.createBoard(dto,memberDetails.getMember());
 
     }
 
     @PutMapping("{boardId}/update")
     public ResponseEntity<?> updateBoard(@ModelAttribute BoardDto dto, @PathVariable Long boardId , @AuthenticationPrincipal MemberDetailsImpl memberDetails) throws IOException {
-
 
         return boardService.updateBoard(dto,boardId, memberDetails.getMember());
 

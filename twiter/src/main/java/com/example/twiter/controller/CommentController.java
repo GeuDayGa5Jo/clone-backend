@@ -18,14 +18,12 @@ public class CommentController {
     private final CommentService commentService;
 
     //댓글 작성
-
     @PostMapping("/{boardId}/create")
     public ResponseEntity<?> createComment(
             @AuthenticationPrincipal MemberDetailsImpl memberDetailsImpl,
             @RequestBody CommentDto commentDto,
             @PathVariable Long boardId) {
         return commentService.createComment(memberDetailsImpl.getMember(), commentDto, boardId);
-
     }
 
     // 댓글 수정
@@ -35,7 +33,6 @@ public class CommentController {
             @AuthenticationPrincipal MemberDetailsImpl memberDetailsImpl,
             @RequestBody CommentDto commentDto) {
         return commentService.updateComment(commentId, memberDetailsImpl.getMember(), commentDto);
-
     }
 
     // 댓글 삭제

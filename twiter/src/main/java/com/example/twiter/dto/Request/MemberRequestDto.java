@@ -14,9 +14,8 @@ public class MemberRequestDto {
     private String memberEmail;
     private String memberName;
     private String memberPassword;
-
     private Date DOB;
-
+    private String passwordConfirm;
 
 
     public UsernamePasswordAuthenticationToken toAuthentication() {
