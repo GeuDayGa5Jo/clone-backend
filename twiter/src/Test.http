@@ -4,7 +4,7 @@ POST http://localhost:8080/member/signup
 Content-Type: application/json
 
 {
-  "memberEmail": "dan@gmail.com",
+  "memberEmail": "dan1@gmail.com",
     "memberName": "dan",
     "memberPassword": "1234",
   "passwordConfirm": "1234"
@@ -16,7 +16,7 @@ POST http://localhost:8080/member/login
 Content-Type: application/json
 
 {
-  "memberEmail": "dan@gmail.com",
+  "memberEmail": "dan1@gmail.com",
   "memberPassword": "1234"
 }
 
@@ -24,86 +24,89 @@ Content-Type: application/json
 
 POST http://localhost:8080/auth/boards/create
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW5AZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY2NzE0NzE0M30.oUQuMv-3YGejUpOGp2UTf2Tqsv_eX0yd-4xRkWHgoeJuiECA93zXwdKmF47YOuYPqa7CWyFyLcQ4QBlienrbFw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xQGdtYWlsLmNvbSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NjcyMTQ2NDh9.g9HzS-kwgQ6wsAVlD220-7WPp0QuIQ1FsJeFsyaiMgCfLXi1b692MAyUtEv_auoIUuwRQGXQc_lRfzLP76TuEw
 
 
 {
-  "boardContent": "졸려려려ㅕㄹ"
+  "boardContent": "this second."
 }
 
 
 ###
 
-PUT http://localhost:8080/auth/boards/7/update
+PUT http://localhost:8080/auth/boards/6/update
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW5AZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY2NzE0NzE0M30.oUQuMv-3YGejUpOGp2UTf2Tqsv_eX0yd-4xRkWHgoeJuiECA93zXwdKmF47YOuYPqa7CWyFyLcQ4QBlienrbFw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW5AZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY2NzE3MDA4MH0.alLolD8C9hFcBYd-VgrnOGSUOFDkQuDKIuSWyp1DrHhVdFRffIRZ0QonMxtA8io-nNebp59IqdlNXBRtUEHZaQ
 
 
 {
-  "boardContent": "자라"
+  "boardContent": "changed to this, now try to add a comment"
 }
 
 
 ###
+GET http://localhost:8080/auth/boards/5
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW5AZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY2NzE3MDA4MH0.alLolD8C9hFcBYd-VgrnOGSUOFDkQuDKIuSWyp1DrHhVdFRffIRZ0QonMxtA8io-nNebp59IqdlNXBRtUEHZaQ
+
+
+
+
+###
+
+POST http://localhost:8080/auth/comments/5/create
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW5AZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY2NzE2ODM3Nn0.QZTQVdMM51Ip4iAN0cTjrwCVbHILQm6jQmtrMSWX0PCd_jT-bZjz9MaLPK-_sm5i2XDwgbSAoCPNUedlG3xhYg
+
+{
+  "commentContent": "하하잉"
+}
+
+
+###
+
 GET http://localhost:8080/auth/boards/
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtMkBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MDc3MjQ0fQ.jo3YIJ-qHGKd2ms7Es5Tj_Sl4gqjVDaKghMojDxAMhof842nJtxAtV8YurnI3IzXGzwRtoI0IC9yzFCKFr1JyQ
-
-
-
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW5AZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY2NzE2ODM3Nn0.QZTQVdMM51Ip4iAN0cTjrwCVbHILQm6jQmtrMSWX0PCd_jT-bZjz9MaLPK-_sm5i2XDwgbSAoCPNUedlG3xhYg
 
 ###
 
-POST http://localhost:8080/auth/comments/6/create
+DELETE http://localhost:8080/auth/boards/6/delete
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW5AZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY2NzE0NzQ4Nn0.dDq3lzwl0s3xBnUo55hS_vDs4GOFAT7U0UrsKhYkS1a3iZh-T7qQXwhvhiQv3xAMaNhMA4yLKD6nr-QCLexBOA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW5AZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY2NzE2ODM3Nn0.QZTQVdMM51Ip4iAN0cTjrwCVbHILQm6jQmtrMSWX0PCd_jT-bZjz9MaLPK-_sm5i2XDwgbSAoCPNUedlG3xhYg
+
+###
+
+PUT http://localhost:8080/auth/comments/12/update
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW5AZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY2NzE3MDA4MH0.alLolD8C9hFcBYd-VgrnOGSUOFDkQuDKIuSWyp1DrHhVdFRffIRZ0QonMxtA8io-nNebp59IqdlNXBRtUEHZaQ
 
 {
-  "commentContent": "testing"
-}
-
-
-
-###
-
-GET http://localhost:8080/boards/5
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW5AZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY2NzEyMjIwNX0.GM-DWBPs6Bmui0VbfgLWFrmQKpYnuZqGlmtFmGsOdbmWw6_B2iwGf4NuM_BAw6vOAayXwRifMzH7rpiO0mPbRg
-
-###
-
-
-DELETE http://localhost:8080/auth/boards/7/delete
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW5AZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY2NzE0NzE0M30.oUQuMv-3YGejUpOGp2UTf2Tqsv_eX0yd-4xRkWHgoeJuiECA93zXwdKmF47YOuYPqa7CWyFyLcQ4QBlienrbFw
-
-
-###
-
-
-
-
-
-
-PUT http://localhost:8080/auth/comments/5/update
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW5AZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY2NzE0NzQ4Nn0.dDq3lzwl0s3xBnUo55hS_vDs4GOFAT7U0UrsKhYkS1a3iZh-T7qQXwhvhiQv3xAMaNhMA4yLKD6nr-QCLexBOA
-
-{
-  "modifiedComment": "hihihihii"
+  "modifiedComment": "ㅗ디ㅣㅐ"
 }
 
 ###
 
 
-DELETE http://localhost:8080/auth/comments/5/delete
+DELETE http://localhost:8080/auth/comments/12/delete
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW5AZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY2NzE0NzQ4Nn0.dDq3lzwl0s3xBnUo55hS_vDs4GOFAT7U0UrsKhYkS1a3iZh-T7qQXwhvhiQv3xAMaNhMA4yLKD6nr-QCLexBOA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW5AZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY2NzE3ODc0OH0.3NSRiMqKrSJZvwJIkASvWlcQOCl40Kw46-uMJowHYle_h6WAA1VDgfmwHYzJCxrns8O146h20S0-ACMnZUfGqA
 
 ###
 
 GET http://localhost:8080/auth/comments
 Content-Type: application/json
-Authorization:Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZGFtMkBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MTI1ODU2fQ.bQvzdjZK3FCNkfkaE1RJXNqIZFEegvV8rK19nI_er-n_K4WgXnktAxgHSY6ocvPvReUObRaqOoWbDQJi6AWqzg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW5AZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY2NzE3ODc0OH0.3NSRiMqKrSJZvwJIkASvWlcQOCl40Kw46-uMJowHYle_h6WAA1VDgfmwHYzJCxrns8O146h20S0-ACMnZUfGqA
 
 
+###
+
+POST http://localhost:8080/auth/3/heart
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xQGdtYWlsLmNvbSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NjcxODUxMDl9.jmXO1Yga6Jgu0AdzqRbS1ooAAYso8h-Mpb-Vqg0g9TnzE3ocfmcJrRBWyT8-xm5xvTueO4ycuN9YsEzAMDcGEg
+
+###
+
+GET http://localhost:8080/member/mypage
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xQGdtYWlsLmNvbSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NjcxODUxMDl9.jmXO1Yga6Jgu0AdzqRbS1ooAAYso8h-Mpb-Vqg0g9TnzE3ocfmcJrRBWyT8-xm5xvTueO4ycuN9YsEzAMDcGEg

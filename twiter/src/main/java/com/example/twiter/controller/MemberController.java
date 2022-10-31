@@ -1,13 +1,12 @@
 package com.example.twiter.controller;
 
 import com.example.twiter.dto.Request.MemberRequestDto;
+import com.example.twiter.security.MemberDetailsImpl;
 import com.example.twiter.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/member")
@@ -16,16 +15,23 @@ public class MemberController {
     private final MemberService memberService;
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody MemberRequestDto memberRequestDto) {
-
-
-
+        System.out.println("memberRequestDto.getMemberPassword() = " + memberRequestDto.getMemberPassword());
+        System.out.println("memberRequestDto.getMemberEmail() = " + memberRequestDto.getMemberEmail());
+        System.out.println("memberRequestDto = " + memberRequestDto.getDOB());
         return memberService.signup(memberRequestDto);
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody MemberRequestDto memberRequestDto) {
+        System.out.println("memberRequestDto.getMemberEmail() login= " + memberRequestDto.getMemberEmail());
         
         return memberService.login(memberRequestDto);
+    }
+
+
+    @GetMapping("/mypage")
+    public ResponseEntity<?> myPage(@AuthenticationPrincipal MemberDetailsImpl memberDetails){
+        return memberService.myPage(memberDetails.getMember());
     }
 
 

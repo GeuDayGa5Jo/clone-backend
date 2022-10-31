@@ -5,9 +5,12 @@ import com.example.twiter.security.jwt.JwtAuthenticationEntryPoint;
 import com.example.twiter.security.jwt.JwtSecurityConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+
+//import org.springframework.boot.autoconfigure.security.ConditionalOnDefault
 import org.springframework.boot.autoconfigure.security.ConditionalOnDefaultWebSecurity;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,8 +26,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 @RequiredArgsConstructor
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnDefaultWebSecurity
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
+@ConditionalOnDefaultWebSecurity
 public class WebSecurityConfig implements WebMvcConfigurer {
     private final TokenProvider tokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -81,7 +84,8 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 // 로그인, 회원가입 API 는 토큰이 없는 상태에서 요청이 들어오기 때문에 permitAll 설정
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/auth/**")
+                .antMatchers("/api/auth/**").permitAll()
+                .antMatchers()
                 .authenticated()
                 .anyRequest()
                 .permitAll()

@@ -4,10 +4,11 @@ import com.example.twiter.dto.BoardDto;
 import com.example.twiter.security.MemberDetailsImpl;
 import com.example.twiter.service.BoardService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/auth/boards/")
@@ -22,18 +23,25 @@ public class BoardController {
 
     }
 
-    @PostMapping("create")
-    public ResponseEntity<?> createBoard(@RequestBody BoardDto dto , @AuthenticationPrincipal MemberDetailsImpl memberDetails){
+    @GetMapping("{boardId}")
+    public ResponseEntity<?> getBoard(@PathVariable Long boardId){
 
+        return boardService.getBoard(boardId);
+
+    }
+
+
+    @PostMapping("create")
+    public ResponseEntity<?> createBoard(@ModelAttribute BoardDto dto , @AuthenticationPrincipal MemberDetailsImpl memberDetails) throws IOException {
+        System.out.println("dto = " + dto);
         return boardService.createBoard(dto,memberDetails.getMember());
 
     }
 
     @PutMapping("{boardId}/update")
-    public ResponseEntity<?> updateBoard(@RequestBody BoardDto dto, @PathVariable Long boardId , @AuthenticationPrincipal MemberDetailsImpl memberDetails){
-        System.out.println("dto = " + dto);
-        System.out.println("boardId = " + boardId);
-        System.out.println("memberDetails = " + memberDetails);
+    public ResponseEntity<?> updateBoard(@ModelAttribute BoardDto dto, @PathVariable Long boardId , @AuthenticationPrincipal MemberDetailsImpl memberDetails) throws IOException {
+
+
         return boardService.updateBoard(dto,boardId, memberDetails.getMember());
 
     }

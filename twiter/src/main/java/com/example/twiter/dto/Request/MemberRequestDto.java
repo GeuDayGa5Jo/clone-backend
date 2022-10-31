@@ -14,7 +14,7 @@ public class MemberRequestDto {
     private String memberEmail;
     private String memberName;
     private String memberPassword;
-//    private String passwordConfirm;
+
     private Date DOB;
 
 
@@ -22,5 +22,6 @@ public class MemberRequestDto {
     public UsernamePasswordAuthenticationToken toAuthentication() {
         return new UsernamePasswordAuthenticationToken(memberEmail, memberPassword);
     }
+
 
 }

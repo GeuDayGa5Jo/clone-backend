@@ -3,6 +3,7 @@ package com.example.twiter.entity;
 
 import com.example.twiter.dto.CommentDto;
 import com.example.twiter.entity.util.Timestamp;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
@@ -22,24 +23,20 @@ public class Comment extends Timestamp {
     private String commentContent;
 
 
-    @Column
-    private String memberName;
+    @ManyToOne
 
-    @Column
-    private Long boardId;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-    @Column
-    private Long memberId;
-
-
+    @ManyToOne
+    @JoinColumn(name = "board_id")
+    private Board board;
 
 
-
-    public Comment(CommentDto commentDto, Member member, Long boardId){
+    public Comment(CommentDto commentDto, Member member, Board board){
         this.commentContent = commentDto.getCommentContent();
-        this.memberName = member.getMemberName();
-        this.boardId = boardId;
-        this.memberId = member.getMemberId();
+        this.member = member;
+        this.board = board;
     }
 
     public void update(CommentDto commentDto) {

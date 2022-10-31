@@ -19,7 +19,7 @@ public class MemberDetailsServiceImpl implements UserDetailsService {
     }
 
     public UserDetails loadUserByUsername(String memberEmail) throws UsernameNotFoundException {
-        Member member = (Member) memberRepository.findByMemberEmail(memberEmail)
+        Member member = memberRepository.findByMemberEmail(memberEmail)
                 .orElseThrow(() -> new UsernameNotFoundException("Can't find " + memberEmail));
 
         return new MemberDetailsImpl( member );
