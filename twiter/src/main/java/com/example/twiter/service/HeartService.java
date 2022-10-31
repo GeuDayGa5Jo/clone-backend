@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
-import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -27,13 +27,10 @@ public class HeartService {
         Board board = boardRepository.findById(boardId).orElseThrow(IllegalAccessError::new);
 
         if(Objects.nonNull(heart)){
-            System.out.println("it should be disliked");
             heartRepository.delete(heart);
         }
         if(Objects.isNull(heart)){
-            System.out.println("its not here");
             Heart heart1 = new Heart(member,board);
-            HeartDto heartDto = new HeartDto(heart1);
             heartRepository.save(heart1);
         }
 

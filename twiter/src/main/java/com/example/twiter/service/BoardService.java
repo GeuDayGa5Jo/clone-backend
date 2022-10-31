@@ -94,7 +94,10 @@ public class BoardService {
     @Transactional
     public ResponseEntity<?> getBoard(Long boardId) {
 
-        Board board = boardRepository.findById(boardId).orElseThrow(()-> new IllegalArgumentException("보드가 존재하지 않습니다"));
+        Board board = boardRepository.findById(boardId).orElse(null);
+        if(board==null){
+            return exceptionHandler.handleApiRequestException(new IllegalArgumentException("게시글이 존재하지 않습니다"));
+        }
         List <CommentDto> commentList = new ArrayList<>();
 
         List<Comment> comments = commentRepository.findCommentByBoard_BoardId(boardId);

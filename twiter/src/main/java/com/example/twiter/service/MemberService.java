@@ -4,8 +4,10 @@ import com.example.twiter.dto.MemberDto;
 import com.example.twiter.dto.Request.MemberRequestDto;
 import com.example.twiter.dto.TokenDto;
 import com.example.twiter.entity.Authority;
+import com.example.twiter.entity.Board;
 import com.example.twiter.entity.Member;
 import com.example.twiter.entity.RefreshToken;
+import com.example.twiter.repository.BoardRepository;
 import com.example.twiter.repository.MemberRepository;
 import com.example.twiter.repository.RefreshTokenRepository;
 import com.example.twiter.security.TokenProvider;
@@ -23,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +36,8 @@ public class MemberService {
     private final TokenProvider tokenProvider;
     private final PasswordEncoder passwordEncoder;
     private final RefreshTokenRepository refreshTokenRepository;
+
+    private final BoardRepository boardRepository;
 
     @Transactional
     public ResponseEntity<?> signup(MemberRequestDto memberRequestDto) {
@@ -90,6 +95,15 @@ public class MemberService {
 
         return new ResponseEntity<>(new MemberDto(member), httpHeaders, HttpStatus.OK);
 
+
+
+    }
+
+    public ResponseEntity<?> myPage(Member member) {
+
+        List<Board> myBoards = boardRepository.findBoardsByMember(member);
+
+        return new ResponseEntity<>(myBoards,HttpStatus.OK);
 
 
     }
