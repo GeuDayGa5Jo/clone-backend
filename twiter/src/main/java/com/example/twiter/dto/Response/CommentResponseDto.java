@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class CommentResDto {
+public class CommentResponseDto {
 
     private String msg;
     private int statusCode;
 
-    public CommentResDto(String msg, int statusCode) {
+    public CommentResponseDto(String msg, int statusCode) {
         this.msg = msg;
         this.statusCode = statusCode;
     }

@@ -24,5 +24,5 @@ public class Timestamp implements Serializable {
 
     @LastModifiedDate
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private Date updatedAt;
 }

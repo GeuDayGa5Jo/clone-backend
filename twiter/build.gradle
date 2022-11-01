@@ -13,7 +13,9 @@ configurations {
         extendsFrom annotationProcessor
     }
 }
-
+springBoot {
+    mainClass="com.example.twiter.TwiterApplication"
+}
 
 
 repositories {

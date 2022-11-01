@@ -13,27 +13,26 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
+
+
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody MemberRequestDto memberRequestDto) {
-        System.out.println("memberRequestDto.getMemberPassword() = " + memberRequestDto.getMemberPassword());
-        System.out.println("memberRequestDto.getMemberEmail() = " + memberRequestDto.getMemberEmail());
-        System.out.println("memberRequestDto = " + memberRequestDto.getDOB());
+
         return memberService.signup(memberRequestDto);
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody MemberRequestDto memberRequestDto) {
-        System.out.println("memberRequestDto.getMemberEmail() login= " + memberRequestDto.getMemberEmail());
+
         
         return memberService.login(memberRequestDto);
     }
 
 
-    @GetMapping("/mypage")
+    @GetMapping("/auth/myPage")
     public ResponseEntity<?> myPage(@AuthenticationPrincipal MemberDetailsImpl memberDetails){
+
         return memberService.myPage(memberDetails.getMember());
     }
-
-
 
 }

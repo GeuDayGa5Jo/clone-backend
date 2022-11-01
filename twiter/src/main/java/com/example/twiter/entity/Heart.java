@@ -1,7 +1,6 @@
 package com.example.twiter.entity;
 
 
-import com.example.twiter.dto.BoardDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

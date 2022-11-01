@@ -1,8 +1,7 @@
 package com.example.twiter.controller;
 
 
-import com.example.twiter.dto.CommentDto;
-
+import com.example.twiter.dto.Request.CommentRequestDto;
 import com.example.twiter.security.MemberDetailsImpl;
 import com.example.twiter.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,7 @@ public class CommentController {
     @PostMapping("/{boardId}/create")
     public ResponseEntity<?> createComment(
             @AuthenticationPrincipal MemberDetailsImpl memberDetailsImpl,
-            @RequestBody CommentDto commentDto,
+            @RequestBody CommentRequestDto commentDto,
             @PathVariable Long boardId) {
         return commentService.createComment(memberDetailsImpl.getMember(), commentDto, boardId);
 
@@ -33,7 +32,7 @@ public class CommentController {
     public ResponseEntity<?> updateComment(
             @PathVariable Long commentId,
             @AuthenticationPrincipal MemberDetailsImpl memberDetailsImpl,
-            @RequestBody CommentDto commentDto) {
+            @RequestBody CommentRequestDto commentDto) {
         return commentService.updateComment(commentId, memberDetailsImpl.getMember(), commentDto);
 
     }
