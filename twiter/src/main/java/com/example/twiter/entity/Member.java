@@ -35,6 +35,12 @@ public class Member {
     @Column
     private String memberName;
 
+    @Column
+    private String profileImgUrl ;
+
+    @Column
+    private String headerImgUrl;
+
 
     @Column
     @JsonIgnore
@@ -43,6 +49,13 @@ public class Member {
     @Column
     @JsonIgnore
     private String bio;
+
+    @OneToMany(mappedBy = "following")
+    private List<Follow> following;
+
+    @OneToMany(mappedBy = "followers")
+    private List<Follow> followers;
+
 
 
     @Column
@@ -64,4 +77,23 @@ public class Member {
         this.memberName = memberRequestDto.getMemberName();
         this.dob = memberRequestDto.getDob();
     }
+    public void infoUpdate(MemberRequestDto memberDto, String headerImgUrl) {
+        this.memberName = memberDto.getMemberName();
+        this.headerImgUrl = headerImgUrl;
+        this.bio = memberDto.getBio();
+    }
+
+    public void infoUpdateProfile(MemberRequestDto memberDto, String profileImgUrl) {
+        this.memberName = memberDto.getMemberName();
+        this.profileImgUrl = profileImgUrl;
+        this.bio = memberDto.getBio();
+    }
+
+    public void infoUpdate(MemberRequestDto memberDto, String headerImgUrl, String profileImgUrl) {
+        this.memberName = memberDto.getMemberName();
+        this.headerImgUrl = headerImgUrl;
+        this.profileImgUrl = profileImgUrl;
+        this.bio = memberDto.getBio();
+    }
+
 }

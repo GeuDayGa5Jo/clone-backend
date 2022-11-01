@@ -54,16 +54,19 @@ public class Board extends Timestamp {
         this.boardContent = dto.getBoardContent();
     }
 
+    public Board(String dto, Member member){
+        this.member = member;
+        this.boardContent = dto;
+    }
+
     public void update(BoardRequestDto dto) {
         System.out.println("this should be fired");
         System.out.println("dto.getBoardContent() = " + dto.getBoardContent());
         this.boardContent = dto.getBoardContent() != null ? dto.getBoardContent() : this.boardContent;
-        this.retweet = dto.isRetweet() != this.retweet ? dto.isRetweet() : this.retweet;
     }
 
     public void update(BoardRequestDto dto, String imageFile) {
         this.boardContent = dto.getBoardContent() != null ? dto.getBoardContent() : this.boardContent;
-        this.retweet = dto.isRetweet() != this.retweet ? dto.isRetweet() : this.retweet;
         this.imageFile = imageFile;
     }
 }

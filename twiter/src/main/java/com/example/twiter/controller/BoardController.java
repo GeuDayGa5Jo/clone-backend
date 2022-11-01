@@ -4,15 +4,18 @@ import com.example.twiter.dto.Request.BoardRequestDto;
 import com.example.twiter.security.MemberDetailsImpl;
 import com.example.twiter.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/auth/boards/")
+@RequestMapping("/auth/boards")
 @RequiredArgsConstructor
+@ControllerAdvice
 public class BoardController {
 
     private final BoardService boardService;
@@ -20,42 +23,24 @@ public class BoardController {
     public ResponseEntity<?> getBoards(){
 
         return boardService.getBoards();
-
     }
 
-    @GetMapping("{boardId}")
+    @GetMapping("/{boardId}")
     public ResponseEntity<?> getBoard(@PathVariable Long boardId){
 
         return boardService.getBoard(boardId);
+    }
 
+    @PostMapping("/create")
+    public ResponseEntity<?> createBoard(@RequestParam("boardContent") String dto, @RequestParam(value = "imageFile", required = false)MultipartFile imageFile, @AuthenticationPrincipal MemberDetailsImpl memberDetails) throws IOException {
+
+        return boardService.createBoard(dto,imageFile,memberDetails.getMember());
     }
 
 
-    @PostMapping("create")
-    public ResponseEntity<?> createBoard(@ModelAttribute BoardRequestDto dto , @AuthenticationPrincipal MemberDetailsImpl memberDetails) throws IOException {
-
-        if(dto.getImageFile()==null){
-            return boardService.createBoardWithoutImage(dto,memberDetails.getMember());
-        }
-
-        return boardService.createBoard(dto,memberDetails.getMember());
-
-    }
-
-
-
-
-    @PutMapping("{boardId}/update")
-    public ResponseEntity<?> updateBoard(@ModelAttribute BoardRequestDto dto, @PathVariable Long boardId , @AuthenticationPrincipal MemberDetailsImpl memberDetails) throws IOException {
-
-        return boardService.updateBoard(dto,boardId, memberDetails.getMember());
-
-    }
-
-    @DeleteMapping("{boardId}/delete")
+    @DeleteMapping("/{boardId}/delete")
     public ResponseEntity<?> deleteBoard(@PathVariable Long boardId, @AuthenticationPrincipal MemberDetailsImpl memberDetails){
-        System.out.println("boardId in controller = " + boardId);
-        return boardService.deleteBoard(boardId,memberDetails.getMember());
 
+        return boardService.deleteBoard(boardId,memberDetails.getMember());
     }
 }

@@ -15,8 +15,6 @@ public class MemberController {
     private final MemberService memberService;
 
 
-
-
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody MemberRequestDto memberRequestDto) {
 
@@ -25,17 +23,16 @@ public class MemberController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody MemberRequestDto memberRequestDto) {
-        System.out.println("memberRequestDto.getMemberEmail() login= " + memberRequestDto.getMemberEmail());
+
         
         return memberService.login(memberRequestDto);
     }
 
 
-    @GetMapping("/mypage")
+    @GetMapping("/auth/myPage")
     public ResponseEntity<?> myPage(@AuthenticationPrincipal MemberDetailsImpl memberDetails){
+
         return memberService.myPage(memberDetails.getMember());
     }
-
-
 
 }

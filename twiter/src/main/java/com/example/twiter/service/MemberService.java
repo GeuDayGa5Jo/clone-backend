@@ -1,12 +1,16 @@
 package com.example.twiter.service;
 
+import com.example.twiter.dto.Request.BoardRequestDto;
+import com.example.twiter.dto.Request.CommentRequestDto;
 import com.example.twiter.dto.Request.MemberRequestDto;
 import com.example.twiter.dto.Request.TokenRequestDto;
+import com.example.twiter.dto.Response.BoardResponseDto;
 import com.example.twiter.dto.TokenDto;
 import com.example.twiter.entity.Authority;
 import com.example.twiter.entity.Board;
 import com.example.twiter.entity.Member;
 import com.example.twiter.entity.RefreshToken;
+import com.example.twiter.entity.util.S3Uploader;
 import com.example.twiter.repository.BoardRepository;
 import com.example.twiter.repository.MemberRepository;
 import com.example.twiter.repository.RefreshTokenRepository;
@@ -26,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,6 +39,11 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class MemberService {
+
+    //URL 각자 수정
+    private final static String PROFILE_URL = "https://podomarket1.s3.ap-northeast-2.amazonaws.com/PublicImg/test.jpg";
+
+    private final static String HEADER_URL = "https://podomarket1.s3.ap-northeast-2.amazonaws.com/PublicImg/food1-2.jpg";
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final MemberRepository memberRepository;
@@ -44,6 +54,7 @@ public class MemberService {
 
     private final BoardRepository boardRepository;
 
+    private final S3Uploader s3Uploader;
 
     @Transactional
     public ResponseEntity<?> signup(MemberRequestDto memberRequestDto){
@@ -65,8 +76,11 @@ public class MemberService {
         Member member = Member.builder()
                 .memberEmail(memberRequestDto.getMemberEmail())
                 .memberPassword(passwordEncoder.encode(memberRequestDto.getMemberPassword()))
+                .profileImgUrl(PROFILE_URL)
+                .headerImgUrl(HEADER_URL)
                 .memberName(memberRequestDto.getMemberName())
                 .dob(memberRequestDto.getDob())
+                .bio(memberRequestDto.getBio())
                 .authority(Authority.ROLE_USER)
                 .build();
 
@@ -107,6 +121,7 @@ public class MemberService {
         // 5. 토큰 발급
 //        return new ResponseEntity<>( ResponseDto.success(new MemberResponseDto(member) ), httpHeaders, HttpStatus.OK) ;
 
+        assert member != null;
         return new ResponseEntity<>(new MemberRequestDto(member), httpHeaders, HttpStatus.OK);
 
     }
@@ -141,21 +156,83 @@ public class MemberService {
         return new ResponseEntity<>(tokenDto, HttpStatus.OK);
     }
     @Transactional
-    public ResponseEntity<?> userUpdate(MemberDetailsImpl memberDetails, MemberRequestDto memberRequestDto) {
+    public ResponseEntity<?> userUpdate(MemberDetailsImpl memberDetails, MemberRequestDto memberRequestDto) throws IOException {
 
         Member member = memberDetails.getMember();
-        member.infoUpdate(memberRequestDto);
-        memberRepository.save(member);
 
-        return new ResponseEntity<>("수정 되었습니다.", HttpStatus.OK);
+
+        // 업데이트 할 이미지들이 없을 때 (infoupdate에 추가하면됨 바꿀것들은)
+        if (memberRequestDto.getProfileImgUrl() == null && memberRequestDto.getHeaderImgUrl() == null) {
+            member.infoUpdate(memberRequestDto);
+            memberRepository.save(member);
+
+            return new ResponseEntity<>(member, HttpStatus.OK);
+        }
+
+        // 프로필 사진이 없을때
+        else if (memberRequestDto.getProfileImgUrl() == null) {
+
+            //헤더사진이 기본사진일때
+            if (member.getHeaderImgUrl().equals(HEADER_URL)) {
+
+                member.infoUpdate(memberRequestDto, s3Uploader.upload(memberRequestDto.getHeaderImgUrl(), "header"));
+
+            } else {
+
+                int sliceNum = member.getHeaderImgUrl().lastIndexOf("/", member.getHeaderImgUrl().lastIndexOf("/") - 1);
+                s3Uploader.deleteFile(member.getHeaderImgUrl().substring(sliceNum + 1));
+                member.infoUpdate(memberRequestDto, s3Uploader.upload(memberRequestDto.getHeaderImgUrl(), "header"));
+
+            }
+
+            memberRepository.save(member);
+
+            return new ResponseEntity<>(member, HttpStatus.OK);
+        }
+        // 헤더 사진이 없을 때(메소드가 같은 이름 , 같은 갯수의 변수명이라 새로 만듬)
+        else if (memberRequestDto.getHeaderImgUrl() == null) {
+            // 프로필 사진이 기본 사진일 떄
+            if (member.getProfileImgUrl().equals(PROFILE_URL)){
+
+                member.infoUpdateProfile(memberRequestDto, s3Uploader.upload(memberRequestDto.getProfileImgUrl(), "profile"));
+
+            } else {
+
+                int sliceNum = member.getProfileImgUrl().lastIndexOf("/", member.getProfileImgUrl().lastIndexOf("/") - 1);
+                s3Uploader.deleteFile(member.getProfileImgUrl().substring(sliceNum + 1));
+                member.infoUpdateProfile(memberRequestDto, s3Uploader.upload(memberRequestDto.getProfileImgUrl(), "profile"));
+
+            }
+            memberRepository.save(member);
+
+            return new ResponseEntity<>(member,HttpStatus.OK);
+        }
+//         둘다 사진 있을 때
+        else {
+
+            int sliceNum = member.getProfileImgUrl().lastIndexOf("/", member.getProfileImgUrl().lastIndexOf("/") - 1);
+            s3Uploader.deleteFile(member.getHeaderImgUrl().substring(sliceNum + 1));
+            s3Uploader.deleteFile(member.getProfileImgUrl().substring(sliceNum + 1));
+            member.infoUpdate(memberRequestDto, s3Uploader.upload(memberRequestDto.getHeaderImgUrl(), "header"), s3Uploader.upload(memberRequestDto.getProfileImgUrl(), "profile"));
+            memberRepository.save(member);
+
+            return new ResponseEntity<>(member,HttpStatus.OK);
+        }
     }
 
     public ResponseEntity<?> myPage(Member member) {
 
-        List<Board> myBoards = boardRepository.findBoardsByMember(member);
+        List<Board> myBoards = boardRepository.findBoardByMember_MemberId(member.getMemberId());
+        List<BoardResponseDto> dtoBoard = new ArrayList<>();
+        List<CommentRequestDto> commentDto = new ArrayList<>();
+        for (Board myBoard : myBoards) {
 
-        return new ResponseEntity<>(myBoards,HttpStatus.OK);
+            dtoBoard.add(new BoardResponseDto(myBoard));
+        }
 
+        MemberRequestDto dto = new MemberRequestDto(member,dtoBoard);
+
+        return new ResponseEntity<>(dto,HttpStatus.OK);
 
     }
 }

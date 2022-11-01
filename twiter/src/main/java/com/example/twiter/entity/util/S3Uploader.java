@@ -78,6 +78,7 @@ public class S3Uploader {
 
     public void deleteFile(String fileName){
         DeleteObjectRequest request = new DeleteObjectRequest(bucket, fileName);
+        System.out.println(request);
         amazonS3Client.deleteObject(request);
     }
 }
