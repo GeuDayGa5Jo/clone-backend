@@ -24,14 +24,14 @@ Content-Type: application/json
 ###
 GET http://localhost:8080/member/auth/myPage
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xMEBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MzQ2ODQ3fQ.PhVojAGDFyYWFz2mMX7g0U6-jQBFVWCWSFHVu7CaKm78MgSE-Kn2FRlrBKkUUmJp0-N7kA7rgUAvfPzzOvWg0g
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xMEBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MzUxMTM3fQ.CjNJTnD5ctpSdAaVkc_Dj6sUNiSPtztxPZlAE5AIHxUXeTkTvrwiuueOc76AVicZsGOFPrhpiswyvLycre1ygg
 
 
 
 ###
-PUT http://localhost:8080/auth/boards/7/update
+PUT http://localhost:8080/auth/boards/9/update
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xMEBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MzQwMDUxfQ.k9-g3VnoU6nHi_UdTEJ5C95W3Q1ifPGE7XyJGSZfE2TmdkBoodVSCAK74iOfN5dJsEZCd0SHij3gxUtwY-JvtA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xMEBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MzUxMTM3fQ.CjNJTnD5ctpSdAaVkc_Dj6sUNiSPtztxPZlAE5AIHxUXeTkTvrwiuueOc76AVicZsGOFPrhpiswyvLycre1ygg
 
 {
   "boardContent": "changed to this, now try to add a comment"
@@ -68,9 +68,9 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xQGdtYWlsLmNvbSIsImF1d
 
 ###
 
-DELETE http://localhost:8080/auth/boards/8/delete
+DELETE http://localhost:8080/auth/boards/9/delete
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xMEBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MzM1Nzg3fQ.uIzyS4OfQcOvHw0jvWy9jEaFMpR9QCypf1Ac1v4yyCLhJkNbBnpZ-nIazxfGAPNUKf59YsImDrnhco2plVI4_A
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xMEBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MzUxMTM3fQ.CjNJTnD5ctpSdAaVkc_Dj6sUNiSPtztxPZlAE5AIHxUXeTkTvrwiuueOc76AVicZsGOFPrhpiswyvLycre1ygg
 
 ###
 

@@ -192,7 +192,7 @@ public class MemberService {
         // 헤더 사진이 없을 때(메소드가 같은 이름 , 같은 갯수의 변수명이라 새로 만듬)
         else if (memberRequestDto.getHeaderImgUrl() == null) {
             // 프로필 사진이 기본 사진일 떄
-            if (member.getProfileImgUrl().equals(PROFILE_URL)){
+            if (member.getProfileImgUrl().equals(PROFILE_URL)) {
 
                 member.infoUpdateProfile(memberRequestDto, s3Uploader.upload(memberRequestDto.getProfileImgUrl(), "profile"));
 
@@ -205,22 +205,28 @@ public class MemberService {
             }
             memberRepository.save(member);
 
-            return new ResponseEntity<>(member,HttpStatus.OK);
+            return new ResponseEntity<>(member, HttpStatus.OK);
         }
-//         둘다 사진 있을 때
+// 둘다 사진 있을 때
         else {
+// 둘다 기본사진일 경우
+            if (member.getProfileImgUrl().equals(PROFILE_URL) && member.getHeaderImgUrl().equals(HEADER_URL)) {
+                member.infoUpdate(memberRequestDto, s3Uploader.upload(memberRequestDto.getHeaderImgUrl(), "header"), s3Uploader.upload(memberRequestDto.getProfileImgUrl(), "profile"));
+                memberRepository.save(member);
+            } else {
 
-            int sliceNum = member.getProfileImgUrl().lastIndexOf("/", member.getProfileImgUrl().lastIndexOf("/") - 1);
-            s3Uploader.deleteFile(member.getHeaderImgUrl().substring(sliceNum + 1));
-            s3Uploader.deleteFile(member.getProfileImgUrl().substring(sliceNum + 1));
-            member.infoUpdate(memberRequestDto, s3Uploader.upload(memberRequestDto.getHeaderImgUrl(), "header"), s3Uploader.upload(memberRequestDto.getProfileImgUrl(), "profile"));
-            memberRepository.save(member);
+                int sliceNum = member.getProfileImgUrl().lastIndexOf("/", member.getProfileImgUrl().lastIndexOf("/") - 1);
+                s3Uploader.deleteFile(member.getHeaderImgUrl().substring(sliceNum + 1));
+                s3Uploader.deleteFile(member.getProfileImgUrl().substring(sliceNum + 1));
+                member.infoUpdate(memberRequestDto, s3Uploader.upload(memberRequestDto.getHeaderImgUrl(), "header"), s3Uploader.upload(memberRequestDto.getProfileImgUrl(), "profile"));
+                memberRepository.save(member);
 
-            return new ResponseEntity<>(member,HttpStatus.OK);
+            }
+            return new ResponseEntity<>(member, HttpStatus.OK);
         }
     }
 
-    public ResponseEntity<?> myPage(Member member) {
+    public ResponseEntity<?> myPage (Member member) {
 
         List<Board> myBoards = boardRepository.findBoardByMember_MemberId(member.getMemberId());
         List<BoardResponseDto> dtoBoard = new ArrayList<>();
