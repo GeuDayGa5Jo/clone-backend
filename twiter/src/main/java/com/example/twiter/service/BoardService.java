@@ -1,9 +1,9 @@
 package com.example.twiter.service;
 
-import com.example.twiter.dto.BoardDto;
-import com.example.twiter.dto.CommentDto;
-import com.example.twiter.dto.CommentListDto;
-import com.example.twiter.dto.ListResponseDto;
+
+import com.example.twiter.dto.Request.BoardRequestDto;
+import com.example.twiter.dto.Request.CommentRequestDto;
+import com.example.twiter.dto.Response.BoardResponseDto;
 import com.example.twiter.entity.Board;
 import com.example.twiter.entity.Comment;
 import com.example.twiter.entity.Member;
@@ -36,12 +36,10 @@ public class BoardService {
     public ResponseEntity<?> getBoards() {
 
         List<Board> boards = boardRepository.findAll();
-        List<BoardDto> boardList = new ArrayList<>();
-        List<Comment> comments = commentRepository.findAll();
-        List<CommentDto> commentDto = new ArrayList<>();
+        List<BoardResponseDto> boardList = new ArrayList<>();
 
         for (Board board : boards) {
-            boardList.add(new BoardDto(board));
+            boardList.add(new BoardResponseDto(board));
         }
 
 
@@ -50,12 +48,10 @@ public class BoardService {
 
 
     @Transactional
-    public ResponseEntity<?> createBoard(BoardDto dto, Member member) throws IOException {
+    public ResponseEntity<?> createBoard(BoardRequestDto dto, Member member) throws IOException {
 
-
-//            return new ResponseEntity<>("성공적으로 생성 되었습니다(보드 추가시)", HttpStatus.OK);
         if(dto.getImageFile()==null){
-            System.out.println("넌 나오면 안되겠지?");
+            System.out.println("no image board creation");
             Board saveWithoutFileBoard = new Board(dto, member);
             boardRepository.save(saveWithoutFileBoard);
 
@@ -68,14 +64,14 @@ public class BoardService {
                 .retweet(dto.isRetweet())
                 .imageFile(s3Uploader.upload(dto.getImageFile(), "member"))
                 .build();
-
-        return new ResponseEntity<>(boardRepository.save(board), HttpStatus.OK);
+        boardRepository.save(board);
+        return new ResponseEntity<>("성공적으로 게시 되었습니다", HttpStatus.OK);
 
 
     }
 
     @Transactional
-    public ResponseEntity<?> updateBoard(BoardDto dto, Long boardId, Member member) throws IOException {
+    public ResponseEntity<?> updateBoard(BoardRequestDto dto, Long boardId, Member member) throws IOException {
 
         Board board = boardRepository.findById(boardId).orElse(null);
 
@@ -88,6 +84,7 @@ public class BoardService {
 
         if(dto.getImageFile()==null) {
             board.update(dto);
+            return new ResponseEntity<>("수정 굳",HttpStatus.OK);
         }
         else{
 
@@ -107,16 +104,20 @@ public class BoardService {
     public ResponseEntity<?> deleteBoard(Long boardId, Member member){
 
         Optional<Board> board = boardRepository.findById(boardId);
+        System.out.println("in board service board = " + board);
 
         if(board.isEmpty()){
+            System.out.println("존재 안해?");
             return exceptionHandler.handleApiRequestException(new IllegalArgumentException("존재 하지 않는 게시글 입니다"));
         }
         else if(board.get().getMember().getMemberId()!=member.getMemberId()){
+            System.out.println("작성자가 달라?");
             return exceptionHandler.handleApiRequestException(new IllegalArgumentException("작성자가 다릅니다"));
         }
 
         boardRepository.delete(board.orElse(null));
-
+        int sliceNum = board.get().getImageFile().lastIndexOf("/",board.get().getImageFile().lastIndexOf("/")-1);
+        s3Uploader.deleteFile(board.get().getImageFile().substring(sliceNum+1));
 
         return new ResponseEntity<>("삭제가 완료 되었습니다",HttpStatus.OK);
 
@@ -129,19 +130,34 @@ public class BoardService {
         if(board==null){
             return exceptionHandler.handleApiRequestException(new IllegalArgumentException("게시글이 존재하지 않습니다"));
         }
-        List <CommentDto> commentList = new ArrayList<>();
+        List <CommentRequestDto> commentList = new ArrayList<>();
 
         List<Comment> comments = commentRepository.findCommentByBoard_BoardId(boardId);
         for (Comment comment : comments) {
-            CommentDto dto = new CommentDto(comment);
+            CommentRequestDto dto = new CommentRequestDto(comment);
             commentList.add(dto);
         }
 
-        BoardDto dto = new BoardDto(board,commentList);
+//        BoardResponseDto dto = new BoardResponseDto(board,commentList);
+        BoardResponseDto dto = new BoardResponseDto(board,commentList);
+
+
 
 
         return new ResponseEntity<>(dto,HttpStatus.OK);
 
     }
+
+    public ResponseEntity<?> createBoardWithoutImage(BoardRequestDto dto, Member member) {
+        System.out.println("no image service");
+        Board board = Board.builder()
+                .boardContent(dto.getBoardContent())
+                .member(member)
+                .retweet(dto.isRetweet())
+                .build();
+        boardRepository.save(board);
+        return new ResponseEntity<>("게시가 완료 되었습니다",HttpStatus.OK);
+    };
+
 }
 

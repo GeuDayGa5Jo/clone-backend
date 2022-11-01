@@ -1,6 +1,7 @@
 package com.example.twiter.entity;
-
-import com.example.twiter.dto.BoardDto;
+import com.example.twiter.dto.Request.BoardRequestDto;
+import com.example.twiter.dto.Response.BoardResponseDto;
+import com.example.twiter.entity.util.Timestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 
@@ -23,8 +24,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
-public class Board {
+public class Board extends Timestamp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,18 +49,19 @@ public class Board {
     private String imageFile;
 
 
-    public Board(BoardDto dto, Member member){
+    public Board(BoardRequestDto dto, Member member){
         this.member = member;
         this.boardContent = dto.getBoardContent();
-        this.retweet = dto.isRetweet();
     }
 
-    public void update(BoardDto dto) {
+    public void update(BoardRequestDto dto) {
+        System.out.println("this should be fired");
+        System.out.println("dto.getBoardContent() = " + dto.getBoardContent());
         this.boardContent = dto.getBoardContent() != null ? dto.getBoardContent() : this.boardContent;
         this.retweet = dto.isRetweet() != this.retweet ? dto.isRetweet() : this.retweet;
     }
 
-    public void update(BoardDto dto, String imageFile) {
+    public void update(BoardRequestDto dto, String imageFile) {
         this.boardContent = dto.getBoardContent() != null ? dto.getBoardContent() : this.boardContent;
         this.retweet = dto.isRetweet() != this.retweet ? dto.isRetweet() : this.retweet;
         this.imageFile = imageFile;

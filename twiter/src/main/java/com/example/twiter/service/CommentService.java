@@ -1,7 +1,8 @@
 package com.example.twiter.service;
 
 import com.example.twiter.dto.*;
-import com.example.twiter.dto.Response.CommentResDto;
+import com.example.twiter.dto.Request.CommentRequestDto;
+import com.example.twiter.dto.Response.CommentResponseDto;
 import com.example.twiter.entity.Board;
 import com.example.twiter.entity.Comment;
 import com.example.twiter.entity.Member;
@@ -24,7 +25,7 @@ public class CommentService {
 
     // 댓글 작성
     @Transactional
-    public ResponseEntity<?> createComment(Member member, CommentDto commentDto, Long boardId) {
+    public ResponseEntity<?> createComment(Member member, CommentRequestDto commentDto, Long boardId) {
         Board board = boardRepository.findById(boardId).orElseThrow(()->new RuntimeException("게시글이 존재하지 않습니다"));
         Comment comment = new Comment(commentDto, member, board);
 
@@ -36,7 +37,7 @@ public class CommentService {
 
     // 댓글 수정
     @Transactional
-    public ResponseEntity<?> updateComment(Long commentId, Member member, CommentDto commentDto) {
+    public ResponseEntity<?> updateComment(Long commentId, Member member, CommentRequestDto commentDto) {
         Optional<Comment> optional = commentRepository.findById(commentId);
         Comment comment = optional.orElseThrow(()->new RuntimeException("댓글을 찾을 수 없습니다"));
         if(!comment.getMember().getMemberName().equals(member.getMemberName())) {
@@ -53,11 +54,11 @@ public class CommentService {
         Comment comment = commentRepository.findById(commentId).orElseThrow(()->new RuntimeException("댓글을 찾을 수 없습니다"));
 
         if(!comment.getMember().getMemberName().equals(member.getMemberName())) {
-            CommentResDto response = new CommentResDto("작성자가 다릅니다.", HttpStatus.BAD_REQUEST.value());
+            CommentResponseDto response = new CommentResponseDto("작성자가 다릅니다.", HttpStatus.BAD_REQUEST.value());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
         commentRepository.deleteById(commentId);
-        CommentResDto response = new CommentResDto("삭제되었습니다.", HttpStatus.OK.value());
+        CommentResponseDto response = new CommentResponseDto("삭제되었습니다.", HttpStatus.OK.value());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

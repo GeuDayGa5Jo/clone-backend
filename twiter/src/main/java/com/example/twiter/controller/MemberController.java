@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
+
+
+
+
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody MemberRequestDto memberRequestDto) {
-        System.out.println("memberRequestDto.getMemberPassword() = " + memberRequestDto.getMemberPassword());
-        System.out.println("memberRequestDto.getMemberEmail() = " + memberRequestDto.getMemberEmail());
-        System.out.println("memberRequestDto = " + memberRequestDto.getDOB());
+
         return memberService.signup(memberRequestDto);
     }
 

@@ -1,6 +1,6 @@
 package com.example.twiter.controller;
 
-import com.example.twiter.dto.BoardDto;
+import com.example.twiter.dto.Request.BoardRequestDto;
 import com.example.twiter.security.MemberDetailsImpl;
 import com.example.twiter.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -32,15 +32,21 @@ public class BoardController {
 
 
     @PostMapping("create")
-    public ResponseEntity<?> createBoard(@ModelAttribute BoardDto dto , @AuthenticationPrincipal MemberDetailsImpl memberDetails) throws IOException {
-        System.out.println("dto = " + dto);
+    public ResponseEntity<?> createBoard(@ModelAttribute BoardRequestDto dto , @AuthenticationPrincipal MemberDetailsImpl memberDetails) throws IOException {
+
+        if(dto.getImageFile()==null){
+            return boardService.createBoardWithoutImage(dto,memberDetails.getMember());
+        }
+
         return boardService.createBoard(dto,memberDetails.getMember());
 
     }
 
-    @PutMapping("{boardId}/update")
-    public ResponseEntity<?> updateBoard(@ModelAttribute BoardDto dto, @PathVariable Long boardId , @AuthenticationPrincipal MemberDetailsImpl memberDetails) throws IOException {
 
+
+
+    @PutMapping("{boardId}/update")
+    public ResponseEntity<?> updateBoard(@ModelAttribute BoardRequestDto dto, @PathVariable Long boardId , @AuthenticationPrincipal MemberDetailsImpl memberDetails) throws IOException {
 
         return boardService.updateBoard(dto,boardId, memberDetails.getMember());
 
@@ -48,7 +54,7 @@ public class BoardController {
 
     @DeleteMapping("{boardId}/delete")
     public ResponseEntity<?> deleteBoard(@PathVariable Long boardId, @AuthenticationPrincipal MemberDetailsImpl memberDetails){
-
+        System.out.println("boardId in controller = " + boardId);
         return boardService.deleteBoard(boardId,memberDetails.getMember());
 
     }

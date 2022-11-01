@@ -1,7 +1,5 @@
 package com.example.twiter.service;
 
-import com.example.twiter.dto.MemberDto;
-import com.example.twiter.dto.Request.MemberInfoRequestDto;
 import com.example.twiter.dto.Request.MemberRequestDto;
 import com.example.twiter.dto.Request.TokenRequestDto;
 import com.example.twiter.dto.TokenDto;
@@ -68,13 +66,13 @@ public class MemberService {
                 .memberEmail(memberRequestDto.getMemberEmail())
                 .memberPassword(passwordEncoder.encode(memberRequestDto.getMemberPassword()))
                 .memberName(memberRequestDto.getMemberName())
-                .DOB(memberRequestDto.getDOB())
+                .dob(memberRequestDto.getDob())
                 .authority(Authority.ROLE_USER)
                 .build();
 
         memberRepository.save(member);
 
-        return new ResponseEntity<>(new MemberDto(member),HttpStatus.OK);
+        return new ResponseEntity<>("회원가입에 성공하셨습니다",HttpStatus.OK);
     }
 
     @Transactional
@@ -109,7 +107,7 @@ public class MemberService {
         // 5. 토큰 발급
 //        return new ResponseEntity<>( ResponseDto.success(new MemberResponseDto(member) ), httpHeaders, HttpStatus.OK) ;
 
-        return new ResponseEntity<>(new MemberDto(member), httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(new MemberRequestDto(member), httpHeaders, HttpStatus.OK);
 
     }
 
@@ -143,10 +141,10 @@ public class MemberService {
         return new ResponseEntity<>(tokenDto, HttpStatus.OK);
     }
     @Transactional
-    public ResponseEntity<?> userUpdate(MemberDetailsImpl memberDetails, MemberInfoRequestDto memberInfoRequestDto) {
+    public ResponseEntity<?> userUpdate(MemberDetailsImpl memberDetails, MemberRequestDto memberRequestDto) {
 
         Member member = memberDetails.getMember();
-        member.infoUpdate(memberInfoRequestDto);
+        member.infoUpdate(memberRequestDto);
         memberRepository.save(member);
 
         return new ResponseEntity<>("수정 되었습니다.", HttpStatus.OK);
