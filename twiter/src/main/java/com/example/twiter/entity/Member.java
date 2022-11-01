@@ -39,6 +39,12 @@ public class Member {
     @Column
     private String bio;
 
+    @Column
+    private String profileImgUrl ;
+
+    @Column
+    private String headerImgUrl;
+
 
 //    @OneToMany(mappedBy = "member")
 //    private List<Board> boardList;
@@ -70,7 +76,26 @@ public class Member {
 
     public void infoUpdate(MemberDto memberDto) {
         this.memberName = memberDto.getMemberName();
-        this.DOB = memberDto.getDOB();
+        this.bio = memberDto.getBio();
 
+    }
+
+    public void infoUpdate(MemberDto memberDto, String headerImgUrl) {
+        this.memberName = memberDto.getMemberName();
+        this.headerImgUrl = headerImgUrl;
+        this.bio = memberDto.getBio();
+    }
+
+    public void infoUpdateProfile(MemberDto memberDto, String profileImgUrl) {
+        this.memberName = memberDto.getMemberName();
+        this.profileImgUrl = profileImgUrl;
+        this.bio = memberDto.getBio();
+    }
+
+    public void infoUpdate(MemberDto memberDto, String headerImgUrl, String profileImgUrl) {
+        this.memberName = memberDto.getMemberName();
+        this.headerImgUrl = headerImgUrl;
+        this.profileImgUrl = profileImgUrl;
+        this.bio = memberDto.getBio();
     }
 }
