@@ -59,6 +59,7 @@ public class MemberRequestDto {
         this.comments = commentsDto;
         this.headerImg = member.getHeaderImgUrl();
         this.profileImg = member.getProfileImgUrl();
+        this.bio = member.getBio();
     }
 
     public UsernamePasswordAuthenticationToken toAuthentication() {

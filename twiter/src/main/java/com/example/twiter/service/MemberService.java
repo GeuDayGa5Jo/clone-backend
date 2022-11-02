@@ -2,13 +2,12 @@ package com.example.twiter.service;
 
 import com.example.twiter.dto.Request.CommentRequestDto;
 import com.example.twiter.dto.Request.MemberRequestDto;
-
 import com.example.twiter.dto.Request.TokenRequestDto;
 import com.example.twiter.dto.Response.BoardResponseDto;
-
 import com.example.twiter.dto.TokenDto;
 import com.example.twiter.entity.*;
 import com.example.twiter.entity.util.S3Uploader;
+import com.example.twiter.exceptionHandler.RestApiExceptionHandler;
 import com.example.twiter.repository.BoardRepository;
 import com.example.twiter.repository.CommentRepository;
 import com.example.twiter.repository.MemberRepository;
@@ -16,7 +15,6 @@ import com.example.twiter.repository.RefreshTokenRepository;
 import com.example.twiter.security.MemberDetailsImpl;
 import com.example.twiter.security.TokenProvider;
 import com.example.twiter.security.jwt.JwtFilter;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,12 +25,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+
 
 
 @Service
@@ -40,9 +38,9 @@ import java.util.List;
 public class MemberService {
 
     //URL 각자 수정
-    private final static String PROFILE_URL = "https://podomarket1.s3.ap-northeast-2.amazonaws.com/PublicImg/test.jpg";
+    private final static String PROFILE_URL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ15YOWd4YH-IdpRVNIqn3T8qeyurc5aEcU8Gsfk5U&s";
 
-    private final static String HEADER_URL = "https://podomarket1.s3.ap-northeast-2.amazonaws.com/PublicImg/food1-2.jpg";
+    private final static String HEADER_URL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgH8SfTjoWwQorxfDNE6Py5dbfPzjwao9IdRiZf9Q&s";
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final MemberRepository memberRepository;
@@ -51,6 +49,8 @@ public class MemberService {
     private final CommentRepository commentRepository;
     private final PasswordEncoder passwordEncoder;
     private final RefreshTokenRepository refreshTokenRepository;
+
+    private final RestApiExceptionHandler exceptionHandler;
 
 
     private final BoardRepository boardRepository;
@@ -158,75 +158,89 @@ public class MemberService {
         return new ResponseEntity<>(tokenDto, HttpStatus.OK);
     }
     @Transactional
-    public ResponseEntity<?> userUpdate(MemberDetailsImpl memberDetails, MemberRequestDto memberRequestDto) throws IOException {
+    public ResponseEntity<?> editProfile(MemberDetailsImpl memberDetails, String bio, String memberName, MultipartFile profileImgUrl, MultipartFile headerImgUrl) throws IOException {
 
         Member member = memberDetails.getMember();
-
-
-        // 업데이트 할 이미지들이 없을 때 (infoupdate에 추가하면됨 바꿀것들은)
-        if (memberRequestDto.getProfileImgUrl() == null && memberRequestDto.getHeaderImgUrl() == null) {
-            member.infoUpdate(memberRequestDto);
+        if(headerImgUrl == null && profileImgUrl == null){
+            member.infoUpdate(bio, memberName, null, null);
             memberRepository.save(member);
-
-            return new ResponseEntity<>(member, HttpStatus.OK);
+            return new ResponseEntity<>("수정이 완료되었습니다", HttpStatus.OK);
         }
+        if(headerImgUrl == null){
+            String profileUrl = s3Uploader.upload(profileImgUrl,"profile");
+            member.infoUpdate(bio, memberName, profileUrl, null);
+            memberRepository.save(member);
+            return new ResponseEntity<>("수정이 완료되었습니다", HttpStatus.OK);
+        }
+        String headerUrl = s3Uploader.upload(headerImgUrl,"header");
+        if(profileImgUrl == null){
+            member.infoUpdate(bio, memberName, null, headerUrl);
+        }
+        else{
+            String profileUrl = s3Uploader.upload(profileImgUrl,"profile");
+            member.infoUpdate(bio, memberName, profileUrl, headerUrl);
+        }
+        memberRepository.save(member);
+        return new ResponseEntity<>("수정이 완료되었습니다", HttpStatus.OK);
+
+    }
 
         // 프로필 사진이 없을때
-        else if (memberRequestDto.getProfileImgUrl() == null) {
-
-            //헤더사진이 기본사진일때
-            if (member.getHeaderImgUrl().equals(HEADER_URL)) {
-
-                member.infoUpdate(memberRequestDto, s3Uploader.upload(memberRequestDto.getHeaderImgUrl(), "header"));
-
-            } else {
-
-                int sliceNum = member.getHeaderImgUrl().lastIndexOf("/", member.getHeaderImgUrl().lastIndexOf("/") - 1);
-                s3Uploader.deleteFile(member.getHeaderImgUrl().substring(sliceNum + 1));
-                member.infoUpdate(memberRequestDto, s3Uploader.upload(memberRequestDto.getHeaderImgUrl(), "header"));
-
-            }
-
-            memberRepository.save(member);
-
-            return new ResponseEntity<>(member, HttpStatus.OK);
-        }
+//        else if (memberRequestDto.getProfileImgUrl() == null) {
+//
+//            //헤더사진이 기본사진일때
+//            if (member.getHeaderImgUrl().equals(HEADER_URL)) {
+//
+//                member.infoUpdate(memberRequestDto, s3Uploader.upload(memberRequestDto.getHeaderImgUrl(), "header"));
+//
+//            } else {
+//
+//                int sliceNum = member.getHeaderImgUrl().lastIndexOf("/", member.getHeaderImgUrl().lastIndexOf("/") - 1);
+//                s3Uploader.deleteFile(member.getHeaderImgUrl().substring(sliceNum + 1));
+//                member.infoUpdate(memberRequestDto, s3Uploader.upload(memberRequestDto.getHeaderImgUrl(), "header"));
+//
+//            }
+//
+//            memberRepository.save(member);
+//
+//            return new ResponseEntity<>(member, HttpStatus.OK);
+//        }
         // 헤더 사진이 없을 때(메소드가 같은 이름 , 같은 갯수의 변수명이라 새로 만듬)
-        else if (memberRequestDto.getHeaderImgUrl() == null) {
-            // 프로필 사진이 기본 사진일 떄
-            if (member.getProfileImgUrl().equals(PROFILE_URL)) {
-
-                member.infoUpdateProfile(memberRequestDto, s3Uploader.upload(memberRequestDto.getProfileImgUrl(), "profile"));
-
-            } else {
-
-                int sliceNum = member.getProfileImgUrl().lastIndexOf("/", member.getProfileImgUrl().lastIndexOf("/") - 1);
-                s3Uploader.deleteFile(member.getProfileImgUrl().substring(sliceNum + 1));
-                member.infoUpdateProfile(memberRequestDto, s3Uploader.upload(memberRequestDto.getProfileImgUrl(), "profile"));
-
-            }
-            memberRepository.save(member);
-
-            return new ResponseEntity<>(member, HttpStatus.OK);
-        }
-// 둘다 사진 있을 때
-        else {
-// 둘다 기본사진일 경우
-            if (member.getProfileImgUrl().equals(PROFILE_URL) && member.getHeaderImgUrl().equals(HEADER_URL)) {
-                member.infoUpdate(memberRequestDto, s3Uploader.upload(memberRequestDto.getHeaderImgUrl(), "header"), s3Uploader.upload(memberRequestDto.getProfileImgUrl(), "profile"));
-                memberRepository.save(member);
-            } else {
-
-                int sliceNum = member.getProfileImgUrl().lastIndexOf("/", member.getProfileImgUrl().lastIndexOf("/") - 1);
-                s3Uploader.deleteFile(member.getHeaderImgUrl().substring(sliceNum + 1));
-                s3Uploader.deleteFile(member.getProfileImgUrl().substring(sliceNum + 1));
-                member.infoUpdate(memberRequestDto, s3Uploader.upload(memberRequestDto.getHeaderImgUrl(), "header"), s3Uploader.upload(memberRequestDto.getProfileImgUrl(), "profile"));
-                memberRepository.save(member);
-
-            }
-            return new ResponseEntity<>(member, HttpStatus.OK);
-        }
-    }
+//        else if (memberRequestDto.getHeaderImgUrl() == null) {
+//            // 프로필 사진이 기본 사진일 떄
+//            if (member.getProfileImgUrl().equals(PROFILE_URL)) {
+//
+//                member.infoUpdate(memberRequestDto, s3Uploader.upload(memberRequestDto.getProfileImgUrl(), "profile"));
+//
+//            } else {
+//
+//                int sliceNum = member.getProfileImgUrl().lastIndexOf("/", member.getProfileImgUrl().lastIndexOf("/") - 1);
+//                s3Uploader.deleteFile(member.getProfileImgUrl().substring(sliceNum + 1));
+//                member.infoUpdate(memberRequestDto, s3Uploader.upload(memberRequestDto.getProfileImgUrl(), "profile"));
+//
+//            }
+//            memberRepository.save(member);
+//
+//            return new ResponseEntity<>(member, HttpStatus.OK);
+//        }
+//// 둘다 사진 있을 때
+//        else {
+//// 둘다 기본사진일 경우
+//            if (member.getProfileImgUrl().equals(PROFILE_URL) && member.getHeaderImgUrl().equals(HEADER_URL)) {
+//                member.infoUpdate(memberRequestDto, s3Uploader.upload(memberRequestDto.getHeaderImgUrl(), "header"), s3Uploader.upload(memberRequestDto.getProfileImgUrl(), "profile"));
+//                memberRepository.save(member);
+//            } else {
+//
+//                int sliceNum = member.getProfileImgUrl().lastIndexOf("/", member.getProfileImgUrl().lastIndexOf("/") - 1);
+//                s3Uploader.deleteFile(member.getHeaderImgUrl().substring(sliceNum + 1));
+//                s3Uploader.deleteFile(member.getProfileImgUrl().substring(sliceNum + 1));
+//                member.infoUpdate(memberRequestDto, s3Uploader.upload(memberRequestDto.getHeaderImgUrl(), "header"), s3Uploader.upload(memberRequestDto.getProfileImgUrl(), "profile"));
+//                memberRepository.save(member);
+//
+//            }
+//            return new ResponseEntity<>(member, HttpStatus.OK);
+//        }
+//    }
 
     public ResponseEntity<?> myPage (Member member) {
 
@@ -250,4 +264,5 @@ public class MemberService {
         return new ResponseEntity<>(dto,HttpStatus.OK);
 
     }
+
 }

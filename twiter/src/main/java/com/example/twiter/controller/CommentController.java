@@ -48,7 +48,7 @@ public class CommentController {
 
     //댓글 조회
     @GetMapping
-    public ResponseEntity<?> getComment(@AuthenticationPrincipal MemberDetailsImpl memberDetailsImpl){
+    public ResponseEntity<?> getComment(@AuthenticationPrincipal MemberDetailsImpl memberDetailsImpl) {
 
         return commentService.getComment(memberDetailsImpl.getMember());
     }

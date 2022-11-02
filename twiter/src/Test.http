@@ -4,7 +4,7 @@ POST http://localhost:8080/member/signup
 Content-Type: application/json
 
 {
-  "memberEmail": "뚜밥@gmail.com",
+  "memberEmail": "뚜3비@gmail.com",
     "memberName": "아담",
     "memberPassword": "1234fd",
   "dob": "1996-03-21",
@@ -17,14 +17,14 @@ POST http://localhost:8080/member/login
 Content-Type: application/json
 
 {
-  "memberEmail": "뚜밥@gmail.com",
+  "memberEmail": "뚜1비@gmail.com",
   "memberPassword": "1234fd"
 }
 
 ###
 GET http://localhost:8080/member/auth/myPage
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xMEBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3Mzg5Njk5fQ.HNpBi-YD0NsJcJuEylOylNTxWza_z9tZRZeVkH6Wk0F7buMwFyAVHfTO0HqCEJ03a-riSfdsoqmq4xUrNDWmvw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiLrmpwx67mEQGdtYWlsLmNvbSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2Njc0MTg1MDB9.mQoQ3xNDXZMpaSChjqyphNm2YFI1rsxqn0n2fxXyEq7ZfAw2OUz41IQt_MyLFcsT6KWeqerltULcX-G9VwNoJA
 
 
 

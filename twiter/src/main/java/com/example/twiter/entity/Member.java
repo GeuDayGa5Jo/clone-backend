@@ -50,11 +50,11 @@ public class Member {
     @JsonIgnore
     private String bio;
 
-    @OneToMany(mappedBy = "following")
-    private List<Follow> following;
-
-    @OneToMany(mappedBy = "followers")
-    private List<Follow> followers;
+//    @OneToMany(mappedBy = "following")
+//    private List<Follow> following;
+//
+//    @OneToMany(mappedBy = "followers")
+//    private List<Follow> followers;
 
     @Column
     private UUID randomId;
@@ -74,27 +74,29 @@ public class Member {
         this.authority = authority;
     }
 
-    public void infoUpdate(MemberRequestDto memberRequestDto) {
-        this.memberName = memberRequestDto.getMemberName();
-        this.dob = memberRequestDto.getDob();
-    }
-    public void infoUpdate(MemberRequestDto memberDto, String headerImgUrl) {
-        this.memberName = memberDto.getMemberName();
-        this.headerImgUrl = headerImgUrl;
-        this.bio = memberDto.getBio();
-    }
+//    public void infoUpdate(MemberRequestDto memberRequestDto) {
+//        this.memberName = memberRequestDto.getMemberName();
+//        this.dob = memberRequestDto.getDob();
+//    }
+//    public void infoUpdate(MemberRequestDto memberDto, String headerImgUrl) {
+//        this.memberName = memberDto.getMemberName();
+//        this.headerImgUrl = headerImgUrl;
+//        this.bio = memberDto.getBio();
+//    }
+//
+//    public void infoUpdateProfile(MemberRequestDto memberDto, String profileImgUrl) {
+//        this.memberName = memberDto.getMemberName();
+//        this.profileImgUrl = profileImgUrl;
+//        this.bio = memberDto.getBio();
+//    }
 
-    public void infoUpdateProfile(MemberRequestDto memberDto, String profileImgUrl) {
-        this.memberName = memberDto.getMemberName();
-        this.profileImgUrl = profileImgUrl;
-        this.bio = memberDto.getBio();
-    }
+    public void infoUpdate(String bio, String memberName, String profileUrl, String headerUrl) {
 
-    public void infoUpdate(MemberRequestDto memberDto, String headerImgUrl, String profileImgUrl) {
-        this.memberName = memberDto.getMemberName();
-        this.headerImgUrl = headerImgUrl;
-        this.profileImgUrl = profileImgUrl;
-        this.bio = memberDto.getBio();
+        System.out.println("null accepted in infoUpdate");
+        this.memberName = memberName != null ? memberName : this.memberName;
+        this.headerImgUrl = headerUrl != null ? headerUrl : this.headerImgUrl;
+        this.profileImgUrl = profileUrl != null ? profileUrl : this.profileImgUrl ;
+        this.bio = bio != null ? bio : this.bio;
     }
 
 }
