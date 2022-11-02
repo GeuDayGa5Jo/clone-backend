@@ -46,16 +46,6 @@ public class MemberController {
                                          @RequestParam(value = "profileImgUrl", required = false) MultipartFile profileImgUrl,
                                          @RequestParam(value = "memberName" , required = false) String memberName) throws IOException {
 
-
-        System.out.println("dto header image in controller= " + headerImgUrl);
-        System.out.println("dto profile image in controller= " +profileImgUrl);
-        System.out.println("dto bio in controller= " + bio);
-        System.out.println("dto memberName in controller= " + memberName);
-
-//        return new ResponseEntity<>("gooooodddd", HttpStatus.OK);
-
-
-
         return memberService.editProfile(memberDetails,bio,memberName, headerImgUrl,profileImgUrl);
     }
 

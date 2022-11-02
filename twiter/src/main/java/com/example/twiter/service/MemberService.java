@@ -40,8 +40,7 @@ public class MemberService {
     //URL 각자 수정
     private final static String PROFILE_URL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ15YOWd4YH-IdpRVNIqn3T8qeyurc5aEcU8Gsfk5U&s";
 
-    private final static String HEADER_URL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgH8SfTjoWwQorxfDNE6Py5dbfPzjwao9IdRiZf9Q&s";
-
+    private final static String HEADER_URL = "https://velog.velcdn.com/images/khi95/post/82d69b83-ddfc-41c3-a90c-2bcea0925798/image.png";
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final MemberRepository memberRepository;
     private final TokenProvider tokenProvider;
@@ -85,7 +84,6 @@ public class MemberService {
                 .authority(Authority.ROLE_USER)
                 .build();
 
-        System.out.println(member.getMemberPassword());
         memberRepository.save(member);
 
         return new ResponseEntity<>("회원가입에 성공하셨습니다",HttpStatus.OK);
@@ -96,14 +94,12 @@ public class MemberService {
     public ResponseEntity<?> login(MemberRequestDto memberRequestDto) {
         // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken = memberRequestDto.toAuthentication();
-        System.out.println("authenticationToken = " + authenticationToken);
 
         // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
         //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
         Member member = (Member) memberRepository.findByMemberEmail( memberRequestDto.getMemberEmail() ).orElse( null );
-        System.out.println("member = " + member);
 
         // 3. 인증 정보를 기반으로 JWT 토큰 생성
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
@@ -115,7 +111,6 @@ public class MemberService {
                 .build();
 
         refreshTokenRepository.save(refreshToken);
-        System.out.println("refreshToken = " + refreshToken);
 
         HttpHeaders httpHeaders= new HttpHeaders();
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER , JwtFilter.BEARER_PREFIX + tokenDto.getAccessToken());
@@ -179,8 +174,9 @@ public class MemberService {
         else{
             String profileUrl = s3Uploader.upload(profileImgUrl,"profile");
             member.infoUpdate(bio, memberName, profileUrl, headerUrl);
+            memberRepository.save(member);
         }
-        memberRepository.save(member);
+
         return new ResponseEntity<>("수정이 완료되었습니다", HttpStatus.OK);
 
     }

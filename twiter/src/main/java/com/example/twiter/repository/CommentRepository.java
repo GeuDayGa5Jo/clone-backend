@@ -10,6 +10,5 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment,Long> {
     List<Comment> findCommentByMember(Member member);
-
     List<Comment> findCommentByBoard_BoardId(Long boardId);
 }

@@ -20,6 +20,9 @@ public class BoardResponseDto {
     private Date createAt;
     private Date updatedAt;
     private String memberName;
+    private String memberEmail;
+
+    private String profileImgUrl;
     private String imageUrl;
     private int commentCount;
     List<CommentRequestDto> comments;
@@ -34,6 +37,7 @@ public class BoardResponseDto {
         this.imageUrl = board.getImageFile();
         this.commentCount = board.getCommentList().size();
         this.comments = commentDto;
+        this.profileImgUrl = board.getMember().getProfileImgUrl();
     }
 
     public BoardResponseDto(Board board){
@@ -45,5 +49,7 @@ public class BoardResponseDto {
         this.imageUrl = board.getImageFile();
         this.createAt = board.getCreatedAt();
         this.updatedAt = board.getUpdatedAt();
+        this.profileImgUrl = board.getMember().getProfileImgUrl();
+        this.memberEmail = board.getMember().getMemberEmail();
     }
 }

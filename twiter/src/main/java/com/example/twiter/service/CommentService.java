@@ -22,7 +22,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final BoardRepository boardRepository;
 
-    // 댓글 작성
+
     @Transactional
     public ResponseEntity<?> createComment(Member member, CommentRequestDto commentDto, Long boardId) {
 
@@ -34,7 +34,6 @@ public class CommentService {
         return new ResponseEntity<>("댓글이 작성되었습니다", HttpStatus.CREATED);
     }
 
-    //댓글 삭제
     @Transactional
     public ResponseEntity<?> deleteComment(Long commentId, Member member) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(()->new RuntimeException("댓글을 찾을 수 없습니다"));
