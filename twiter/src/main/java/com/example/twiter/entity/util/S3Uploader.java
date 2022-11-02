@@ -27,7 +27,7 @@ public class S3Uploader {
 
     // MultipartFile을 전달받아 File로 전환한 후 S3에 업로드
     public String upload(MultipartFile multipartFile, String dirName) throws IOException {
-        System.out.println("multipartFile = " + multipartFile);
+
         File uploadFile = convert(multipartFile)
                 .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File로 전환이 실패했습니다."));
 
@@ -37,7 +37,9 @@ public class S3Uploader {
     private String upload(File uploadFile, String dirName) {
         String fileName = dirName + "/" + UUID.randomUUID();
         String uploadImageUrl = putS3(uploadFile, fileName);
+
         removeNewFile(uploadFile); // 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)
+
         return uploadImageUrl;  // 업로드된 파일의 S3 URL 주소 반환
     }
 
@@ -60,10 +62,9 @@ public class S3Uploader {
     }
 
     private Optional<File> convert(MultipartFile file) throws IOException {
-        
-        
+
         File convertFile = new File(file.getOriginalFilename());
-        System.out.println("convertFile = " + convertFile);
+
         // 위의 경로로 File 생성됨.
         if(convertFile.createNewFile()) {
             try (FileOutputStream fos = new FileOutputStream(convertFile)) {
@@ -78,7 +79,7 @@ public class S3Uploader {
 
     public void deleteFile(String fileName){
         DeleteObjectRequest request = new DeleteObjectRequest(bucket, fileName);
-        System.out.println(request);
+
         amazonS3Client.deleteObject(request);
     }
 }

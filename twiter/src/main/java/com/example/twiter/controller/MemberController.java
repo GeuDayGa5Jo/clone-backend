@@ -35,4 +35,6 @@ public class MemberController {
         return memberService.myPage(memberDetails.getMember());
     }
 
+
+
 }

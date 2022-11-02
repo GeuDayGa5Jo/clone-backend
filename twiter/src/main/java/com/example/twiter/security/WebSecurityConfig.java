@@ -33,15 +33,14 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
-
     @Override
     public void addCorsMappings(CorsRegistry reg) {
         reg
                 // 전부 허용
                 .addMapping("/**")
                 .allowedOrigins("http://localhost:3000", "http://localhost:3001")
-                .allowedMethods("GET","POST","PUT","DELETE")
-                .exposedHeaders("Authorization","RefreshToken")
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .exposedHeaders("Authorization", "RefreshToken")
                 .allowCredentials(true);
     }
 
@@ -50,13 +49,6 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         return new BCryptPasswordEncoder();
     }
 
-    // h2 database 테스트가 원활하도록 관련 API 들은 전부 무시
-
-//    @Bean
-//    public WebSecurityCustomizer webSecurityCustomizer() {
-//        return  (web) -> web.ignoring()
-//                .antMatchers("/h2-console/**", "/favicon.ico");
-//    }
 
     @Bean
     @Order(SecurityProperties.BASIC_AUTH_ORDER)

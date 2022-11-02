@@ -21,7 +21,6 @@ public class BoardRequestDto {
     @JsonIgnore
     private String imageUrl;
     private boolean retweet;
-
     List<CommentRequestDto> comments;
 
     public BoardRequestDto(Board board, List<CommentRequestDto> commentDto){

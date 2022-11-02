@@ -40,14 +40,11 @@ public class Board extends Timestamp {
     @Column
     private boolean retweet;
 
-
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     private List<Comment> commentList = new ArrayList<>();
 
-
     @Column
     private String imageFile;
-
 
     public Board(BoardRequestDto dto, Member member){
         this.member = member;
@@ -59,14 +56,14 @@ public class Board extends Timestamp {
         this.boardContent = dto;
     }
 
-    public void update(BoardRequestDto dto) {
-        System.out.println("this should be fired");
-        System.out.println("dto.getBoardContent() = " + dto.getBoardContent());
-        this.boardContent = dto.getBoardContent() != null ? dto.getBoardContent() : this.boardContent;
-    }
-
-    public void update(BoardRequestDto dto, String imageFile) {
-        this.boardContent = dto.getBoardContent() != null ? dto.getBoardContent() : this.boardContent;
-        this.imageFile = imageFile;
-    }
+//    수정 기능 사용 안함
+//    public void update(BoardRequestDto dto) {
+//
+//        this.boardContent = dto.getBoardContent() != null ? dto.getBoardContent() : this.boardContent;
+//    }
+//
+//    public void update(BoardRequestDto dto, String imageFile) {
+//        this.boardContent = dto.getBoardContent() != null ? dto.getBoardContent() : this.boardContent;
+//        this.imageFile = imageFile;
+//    }
 }

@@ -15,12 +15,10 @@ public class Heart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long heartId;
 
-
     @ManyToOne
     @JoinColumn(name = "board_id")
     private Board board;
 
-    
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;

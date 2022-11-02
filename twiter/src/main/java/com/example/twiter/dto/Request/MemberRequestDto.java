@@ -1,9 +1,11 @@
 package com.example.twiter.dto.Request;
 
 import com.example.twiter.dto.Response.BoardResponseDto;
+import com.example.twiter.dto.Response.CommentResponseDto;
 import com.example.twiter.entity.Authority;
 import com.example.twiter.entity.Board;
 import com.example.twiter.entity.Member;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,6 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 
 @Getter
@@ -21,19 +24,24 @@ public class MemberRequestDto {
 
     private String memberEmail;
     private String memberName;
-    private String memberPassword;
     private String dob;
-
+    private String profileImg;
+    private String headerImg;
     private Long memberId;
-    private MultipartFile profileImgUrl;
-
-    private MultipartFile headerImgUrl;
-    private String bio ;
-    private Authority authority;
+    private String bio;
+    List<CommentRequestDto> comments;
 
     List<BoardResponseDto> boards;
 
-    public MemberRequestDto(Member member){
+    private String memberPassword;
+    @JsonIgnore
+    private MultipartFile profileImgUrl;
+    @JsonIgnore
+    private Authority authority;
+    @JsonIgnore
+    private MultipartFile headerImgUrl;
+
+    public MemberRequestDto(Member member) {
         this.memberId = member.getMemberId();
         this.memberEmail = member.getMemberEmail();
         this.memberName = member.getMemberName();
@@ -41,18 +49,19 @@ public class MemberRequestDto {
         this.authority = member.getAuthority();
     }
 
-    public MemberRequestDto(Member member, List<BoardResponseDto> dto){
+    public MemberRequestDto(Member member, List<BoardResponseDto> dto, List<CommentRequestDto> commentsDto) {
         this.memberId = member.getMemberId();
         this.memberEmail = member.getMemberEmail();
         this.memberName = member.getMemberName();
         this.dob = member.getDob();
         this.authority = member.getAuthority();
         this.boards = dto;
+        this.comments = commentsDto;
+        this.headerImg = member.getHeaderImgUrl();
+        this.profileImg = member.getProfileImgUrl();
     }
 
     public UsernamePasswordAuthenticationToken toAuthentication() {
         return new UsernamePasswordAuthenticationToken(memberEmail, memberPassword);
     }
-
-
 }

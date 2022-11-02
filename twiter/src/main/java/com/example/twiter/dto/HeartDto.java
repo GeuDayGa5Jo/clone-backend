@@ -13,7 +13,6 @@ public class HeartDto {
     private Long boardId;
     private Long memberId;
 
-
     public HeartDto(Heart heart){
         this.boardId = heart.getBoard().getBoardId();
         this.memberId = heart.getMember().getMemberId();

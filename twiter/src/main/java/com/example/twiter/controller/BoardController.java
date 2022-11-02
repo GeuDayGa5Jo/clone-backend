@@ -15,7 +15,6 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/auth/boards")
 @RequiredArgsConstructor
-@ControllerAdvice
 public class BoardController {
 
     private final BoardService boardService;
@@ -32,14 +31,17 @@ public class BoardController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createBoard(@RequestParam("boardContent") String dto, @RequestParam(value = "imageFile", required = false)MultipartFile imageFile, @AuthenticationPrincipal MemberDetailsImpl memberDetails) throws IOException {
+    public ResponseEntity<?> createBoard(@RequestParam("boardContent") String dto,
+                                         @RequestParam(value = "imageFile", required = false)MultipartFile imageFile,
+                                         @AuthenticationPrincipal MemberDetailsImpl memberDetails) throws IOException {
 
         return boardService.createBoard(dto,imageFile,memberDetails.getMember());
     }
 
 
     @DeleteMapping("/{boardId}/delete")
-    public ResponseEntity<?> deleteBoard(@PathVariable Long boardId, @AuthenticationPrincipal MemberDetailsImpl memberDetails){
+    public ResponseEntity<?> deleteBoard(@PathVariable Long boardId,
+                                         @AuthenticationPrincipal MemberDetailsImpl memberDetails){
 
         return boardService.deleteBoard(boardId,memberDetails.getMember());
     }

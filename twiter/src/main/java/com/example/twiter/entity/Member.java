@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @NoArgsConstructor
@@ -41,7 +42,6 @@ public class Member {
     @Column
     private String headerImgUrl;
 
-
     @Column
     @JsonIgnore
     private String memberPassword;
@@ -56,7 +56,8 @@ public class Member {
     @OneToMany(mappedBy = "followers")
     private List<Follow> followers;
 
-
+    @Column
+    private UUID randomId;
 
     @Column
     private String dob;

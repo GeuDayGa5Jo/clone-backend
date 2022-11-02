@@ -39,7 +39,8 @@ public class Comment extends Timestamp {
         this.board = board;
     }
 
-    public void update(CommentRequestDto commentDto) {
-        this.commentContent = commentDto.getCommentContent() != null ? commentDto.getCommentContent() : this.commentContent;
-    }
+//    수정 기능 사용 안함
+//    public void update(CommentRequestDto commentDto) {
+//        this.commentContent = commentDto.getCommentContent() != null ? commentDto.getCommentContent() : this.commentContent;
+//    }
 }

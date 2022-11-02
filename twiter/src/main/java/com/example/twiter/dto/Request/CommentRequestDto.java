@@ -9,10 +9,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class CommentRequestDto {
+    private Long commentId;
     private String commentContent;
     private String memberName;
 
     public CommentRequestDto(Comment comment){
+        this.commentId = comment.getCommentId();
         this.commentContent= comment.getCommentContent();
         this.memberName = comment.getMember().getMemberName();
     }

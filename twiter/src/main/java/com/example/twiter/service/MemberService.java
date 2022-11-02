@@ -1,17 +1,16 @@
 package com.example.twiter.service;
 
-import com.example.twiter.dto.Request.BoardRequestDto;
 import com.example.twiter.dto.Request.CommentRequestDto;
 import com.example.twiter.dto.Request.MemberRequestDto;
+
 import com.example.twiter.dto.Request.TokenRequestDto;
 import com.example.twiter.dto.Response.BoardResponseDto;
+
 import com.example.twiter.dto.TokenDto;
-import com.example.twiter.entity.Authority;
-import com.example.twiter.entity.Board;
-import com.example.twiter.entity.Member;
-import com.example.twiter.entity.RefreshToken;
+import com.example.twiter.entity.*;
 import com.example.twiter.entity.util.S3Uploader;
 import com.example.twiter.repository.BoardRepository;
+import com.example.twiter.repository.CommentRepository;
 import com.example.twiter.repository.MemberRepository;
 import com.example.twiter.repository.RefreshTokenRepository;
 import com.example.twiter.security.MemberDetailsImpl;
@@ -48,6 +47,8 @@ public class MemberService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final MemberRepository memberRepository;
     private final TokenProvider tokenProvider;
+
+    private final CommentRepository commentRepository;
     private final PasswordEncoder passwordEncoder;
     private final RefreshTokenRepository refreshTokenRepository;
 
@@ -84,6 +85,7 @@ public class MemberService {
                 .authority(Authority.ROLE_USER)
                 .build();
 
+        System.out.println(member.getMemberPassword());
         memberRepository.save(member);
 
         return new ResponseEntity<>("회원가입에 성공하셨습니다",HttpStatus.OK);
@@ -230,13 +232,20 @@ public class MemberService {
 
         List<Board> myBoards = boardRepository.findBoardByMember_MemberId(member.getMemberId());
         List<BoardResponseDto> dtoBoard = new ArrayList<>();
+        List<Comment> commentList = commentRepository.findCommentByMember(member);
         List<CommentRequestDto> commentDto = new ArrayList<>();
-        for (Board myBoard : myBoards) {
 
+        for (Comment comment : commentList) {
+            commentDto.add(new CommentRequestDto(comment));
+        }
+
+        for (Board myBoard : myBoards) {
             dtoBoard.add(new BoardResponseDto(myBoard));
         }
 
-        MemberRequestDto dto = new MemberRequestDto(member,dtoBoard);
+
+        MemberRequestDto dto = new MemberRequestDto(member,dtoBoard, commentDto);
+
 
         return new ResponseEntity<>(dto,HttpStatus.OK);
 

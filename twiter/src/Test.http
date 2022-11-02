@@ -4,9 +4,9 @@ POST http://localhost:8080/member/signup
 Content-Type: application/json
 
 {
-  "memberEmail": "dan10@gmail.com",
-    "memberName": "dan",
-    "memberPassword": "1234",
+  "memberEmail": "뚜밥@gmail.com",
+    "memberName": "아담",
+    "memberPassword": "1234fd",
   "dob": "1996-03-21",
   "passwordConfirm": "1234"
 }
@@ -17,14 +17,14 @@ POST http://localhost:8080/member/login
 Content-Type: application/json
 
 {
-  "memberEmail": "dan10@gmail.com",
-  "memberPassword": "1234"
+  "memberEmail": "뚜밥@gmail.com",
+  "memberPassword": "1234fd"
 }
 
 ###
 GET http://localhost:8080/member/auth/myPage
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xMEBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MzUxMTM3fQ.CjNJTnD5ctpSdAaVkc_Dj6sUNiSPtztxPZlAE5AIHxUXeTkTvrwiuueOc76AVicZsGOFPrhpiswyvLycre1ygg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xMEBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3Mzg5Njk5fQ.HNpBi-YD0NsJcJuEylOylNTxWza_z9tZRZeVkH6Wk0F7buMwFyAVHfTO0HqCEJ03a-riSfdsoqmq4xUrNDWmvw
 
 
 
@@ -39,9 +39,9 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xMEBnbWFpbC5jb20iLCJhd
 
 
 ###
-GET http://localhost:8080/auth/boards/create
+POST http://localhost:8080/auth/boards/create
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xMEBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MzQ1MDQyfQ.l6EWGx6aFoihhfrhdNlbAc-OlgHf_GaC598xbdi0FeKXjLarTiIJN394gpKn_ijhbHscg2BJMxVHsocPJtaWdQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xMEBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MzkzMzQwfQ.IcoLD-ao2f3NLVkJqZV7MlQy20pAn0lxv4fg_RHwfoYlQrZ20AZsbQ45-sG0T3LicRR-okQLgTpfqa4OGgQ_Vg
 
 
 {
@@ -51,9 +51,9 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xMEBnbWFpbC5jb20iLCJhd
 
 ###
 
-POST http://localhost:8080/auth/comments/6/create
+POST http://localhost:8080/auth/comments/7/create
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xMEBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MzQ1MDQyfQ.l6EWGx6aFoihhfrhdNlbAc-OlgHf_GaC598xbdi0FeKXjLarTiIJN394gpKn_ijhbHscg2BJMxVHsocPJtaWdQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xMEBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3Mzg5Njk5fQ.HNpBi-YD0NsJcJuEylOylNTxWza_z9tZRZeVkH6Wk0F7buMwFyAVHfTO0HqCEJ03a-riSfdsoqmq4xUrNDWmvw
 
 {
   "commentContent": "하하잉"
@@ -68,9 +68,9 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xQGdtYWlsLmNvbSIsImF1d
 
 ###
 
-DELETE http://localhost:8080/auth/boards/9/delete
+DELETE http://localhost:8080/auth/boards/6/delete
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xMEBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MzUxMTM3fQ.CjNJTnD5ctpSdAaVkc_Dj6sUNiSPtztxPZlAE5AIHxUXeTkTvrwiuueOc76AVicZsGOFPrhpiswyvLycre1ygg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xMEBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MzkwMzg0fQ.M1CEKcoGSsBArXjH8wtBQb45JY0MdlnYSIxRXbFiFlAXhtMXWMIq63O3gOV-hDwYi22k4e1_-6XpnJ3ojo8lSQ
 
 ###
 
@@ -84,17 +84,15 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW45QGdtYWlsLmNvbSIsImF1d
 
 ###
 
-
-DELETE http://localhost:8080/auth/comments/4/delete
+DELETE http://localhost:8080/auth/comments/2/delete
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW45QGdtYWlsLmNvbSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NjczMjQyNTN9._NAgdk6pS01NmeXdgmdub5a1nmwjrOx13XrTReNU4IEJ_fW95BZMcKomCEfHj7E9RrRXP7NzmyJW_zb2Nu2VWg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xMEBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3Mzg5Njk5fQ.HNpBi-YD0NsJcJuEylOylNTxWza_z9tZRZeVkH6Wk0F7buMwFyAVHfTO0HqCEJ03a-riSfdsoqmq4xUrNDWmvw
 
 ###
 
 GET http://localhost:8080/auth/comments
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW5AZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY2NzE3ODc0OH0.3NSRiMqKrSJZvwJIkASvWlcQOCl40Kw46-uMJowHYle_h6WAA1VDgfmwHYzJCxrns8O146h20S0-ACMnZUfGqA
-
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xMEBnbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjY3MzkwMzg0fQ.M1CEKcoGSsBArXjH8wtBQb45JY0MdlnYSIxRXbFiFlAXhtMXWMIq63O3gOV-hDwYi22k4e1_-6XpnJ3ojo8lSQ
 
 ###
 
@@ -104,6 +102,6 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xQGdtYWlsLmNvbSIsImF1d
 
 ###
 
-GET http://localhost:8080/member/mypage
+GET http://localhost:8080/member/auth/myPage
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xQGdtYWlsLmNvbSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NjcxODUxMDl9.jmXO1Yga6Jgu0AdzqRbS1ooAAYso8h-Mpb-Vqg0g9TnzE3ocfmcJrRBWyT8-xm5xvTueO4ycuN9YsEzAMDcGEg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiLrmpzrsKVAZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY2NzQwODY1NX0.Wcar-UfFDWB6UexuXCjfp7XXa2-XojD25aRTTsz_zJjlYJhn-fLRbr4PFSUgp1FcbPd7sxAKImxMThlCoDVevw

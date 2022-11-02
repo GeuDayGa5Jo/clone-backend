@@ -9,8 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface BoardRepository extends JpaRepository<Board,Long> {
-
-
     List<Board> findBoardByMember_MemberId(Long memberId);
     Slice<Board> findAllByOrderByBoardId(Pageable pageable);
 }

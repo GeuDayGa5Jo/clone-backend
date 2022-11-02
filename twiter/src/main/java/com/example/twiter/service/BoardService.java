@@ -1,7 +1,5 @@
 package com.example.twiter.service;
 
-
-import com.example.twiter.dto.Request.BoardRequestDto;
 import com.example.twiter.dto.Request.CommentRequestDto;
 import com.example.twiter.dto.Response.BoardResponseDto;
 import com.example.twiter.entity.Board;
@@ -41,14 +39,10 @@ public class BoardService {
 
         List<Board> boards = boardRepository.findAll();
         List<BoardResponseDto> boardList = new ArrayList<>();
-        List<CommentRequestDto> commentList = new ArrayList<>();
-
 
         for (Board board : boards) {
-
             boardList.add(new BoardResponseDto(board));
         }
-
 
         return new ResponseEntity<>(boardList, HttpStatus.OK);
     }
@@ -68,17 +62,74 @@ public class BoardService {
         Board board = Board.builder()
                 .boardContent(dto)
                 .member(member)
-//                .retweet(dto.isRetweet())
                 .imageFile(s3Uploader.upload(imageFile, "member"))
                 .build();
         boardRepository.save(board);
+
         return new ResponseEntity<>("성공적으로 게시 되었습니다", HttpStatus.OK);
-
-
     }
 
+    @Transactional
+    public ResponseEntity<?> deleteBoard(Long boardId, Member member) {
 
-    // 사용 안함.
+        Optional<Board> board = boardRepository.findById(boardId);
+        System.out.println("in board service board = " + board);
+
+        if (board.isEmpty()) {
+            return exceptionHandler.handleApiRequestException(new IllegalArgumentException("존재 하지 않는 게시글 입니다"));
+        } else if (board.get().getMember().getMemberId() != member.getMemberId()) {
+            return exceptionHandler.handleApiRequestException(new IllegalArgumentException("작성자가 다릅니다"));
+        }
+
+        if (board.get().getImageFile() == null) {
+
+        } else {
+            int sliceNum = board.get().getImageFile().lastIndexOf("/", board.get().getImageFile().lastIndexOf("/") - 1);
+
+            s3Uploader.deleteFile(board.get().getImageFile().substring(sliceNum + 1));
+        }
+
+        boardRepository.deleteById(boardId);
+
+        return new ResponseEntity<>("삭제가 완료 되었습니다", HttpStatus.OK);
+    }
+
+    @Transactional
+    public ResponseEntity<?> getBoard(Long boardId) {
+
+        Board board = boardRepository.findById(boardId).orElse(null);
+
+        if (board == null) {
+            return exceptionHandler.handleApiRequestException(new IllegalArgumentException("게시글이 존재하지 않습니다"));
+        }
+
+        List<CommentRequestDto> commentList = new ArrayList<>();
+        List<Comment> comments = commentRepository.findCommentByBoard_BoardId(boardId);
+
+        for (Comment comment : comments) {
+            CommentRequestDto dto = new CommentRequestDto(comment);
+            commentList.add(dto);
+        }
+
+        BoardResponseDto dto = new BoardResponseDto(board, commentList);
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @Transactional
+    public ResponseEntity<?> getBoardInfiniteScroll(int page, int size, String sortBy, boolean isAsc) {
+
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        boardRepository.findAllByOrderByBoardId(pageable);
+
+        return new ResponseEntity<>("스크롤 완료", HttpStatus.OK);
+    }
+
+}
+
+//    수정 기능 사용 안함.
 
 //    @Transactional
 //    public ResponseEntity<?> updateBoard(BoardRequestDto dto, Long boardId, Member member) throws IOException {
@@ -107,67 +158,3 @@ public class BoardService {
 //        return new ResponseEntity<>("수정이 완료 되었습니다", HttpStatus.OK);
 //
 //    }
-
-    @Transactional
-    public ResponseEntity<?> deleteBoard(Long boardId, Member member) {
-
-        Optional<Board> board = boardRepository.findById(boardId);
-        System.out.println("in board service board = " + board);
-
-        if (board.isEmpty()) {
-            System.out.println("존재 안해?");
-            return exceptionHandler.handleApiRequestException(new IllegalArgumentException("존재 하지 않는 게시글 입니다"));
-        } else if (board.get().getMember().getMemberId() != member.getMemberId()) {
-            System.out.println("작성자가 달라?");
-            return exceptionHandler.handleApiRequestException(new IllegalArgumentException("작성자가 다릅니다"));
-        }
-
-        System.out.println("boardId in service = " + boardId);
-        if(board.get().getImageFile() == null){
-            System.out.println("image file null deletion");
-        }else{
-            int sliceNum = board.get().getImageFile().lastIndexOf("/", board.get().getImageFile().lastIndexOf("/") - 1);
-
-            s3Uploader.deleteFile(board.get().getImageFile().substring(sliceNum + 1));
-        }
-        boardRepository.deleteById(boardId);
-        return new ResponseEntity<>("삭제가 완료 되었습니다", HttpStatus.OK);
-
-
-    }
-
-    @Transactional
-    public ResponseEntity<?> getBoard(Long boardId) {
-
-        Board board = boardRepository.findById(boardId).orElse(null);
-        if (board == null) {
-            return exceptionHandler.handleApiRequestException(new IllegalArgumentException("게시글이 존재하지 않습니다"));
-        }
-        List<CommentRequestDto> commentList = new ArrayList<>();
-
-        List<Comment> comments = commentRepository.findCommentByBoard_BoardId(boardId);
-        for (Comment comment : comments) {
-            CommentRequestDto dto = new CommentRequestDto(comment);
-            commentList.add(dto);
-        }
-
-        BoardResponseDto dto = new BoardResponseDto(board, commentList);
-
-
-        return new ResponseEntity<>(dto, HttpStatus.OK);
-
-    }
-
-    @Transactional
-    public ResponseEntity<?> getBoardInfiniteScroll(int page,int size,String sortBy,boolean isAsc) {
-
-        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
-        Sort sort = Sort.by(direction, sortBy);
-        Pageable pageable = PageRequest.of(page, size, sort);
-        boardRepository.findAllByOrderByBoardId(pageable);
-
-        return new ResponseEntity<>("스크롤 완료",HttpStatus.OK);
-    }
-
-}
-

@@ -18,8 +18,9 @@ public class HeartController {
     private final HeartService heartService;
 
     @PostMapping("{boardId}/heart")
-    public ResponseEntity<?> likeHeart(@PathVariable Long boardId , @AuthenticationPrincipal MemberDetailsImpl memberDetails){
-        System.out.println("boardId = " + boardId);
+    public ResponseEntity<?> likeHeart(@PathVariable Long boardId ,
+                                       @AuthenticationPrincipal MemberDetailsImpl memberDetails){
+
         return heartService.likeHeart(boardId,memberDetails.getMember());
     }
 }

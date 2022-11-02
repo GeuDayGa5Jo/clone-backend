@@ -17,6 +17,7 @@ import java.util.Date;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class Timestamp implements Serializable {
+
     @CreatedDate
     @CreationTimestamp
     @Column(name = "created_at", columnDefinition = "varchar(255) default ''", updatable = false)

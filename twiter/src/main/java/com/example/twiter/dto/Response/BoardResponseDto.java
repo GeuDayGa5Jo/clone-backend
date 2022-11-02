@@ -17,13 +17,10 @@ public class BoardResponseDto {
     private Long boardId;
     private String boardContent;
     private boolean retweet;
-
     private Date createAt;
-
     private Date updatedAt;
     private String memberName;
     private String imageUrl;
-
     private int commentCount;
     List<CommentRequestDto> comments;
 
