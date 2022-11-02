@@ -21,12 +21,13 @@ public class BoardRequestDto {
     @JsonIgnore
     private String imageUrl;
     private boolean retweet;
-    List<CommentRequestDto> comments;
 
-    public BoardRequestDto(Board board, List<CommentRequestDto> commentDto){
+    private CommentRequestDto commentRequestDto;
+
+    public BoardRequestDto(Board board, CommentRequestDto commentDto){
         this.boardContent = board.getBoardContent();
         this.imageUrl = board.getImageFile();
-        this.comments = commentDto;
+        this.commentRequestDto = commentDto;
     }
 
 }

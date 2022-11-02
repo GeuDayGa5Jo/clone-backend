@@ -15,8 +15,6 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    //댓글 작성
-
     @PostMapping("/{boardId}/create")
     public ResponseEntity<?> createComment(
             @AuthenticationPrincipal MemberDetailsImpl memberDetailsImpl,
@@ -37,7 +35,6 @@ public class CommentController {
 //
 //    }
 
-    // 댓글 삭제
     @DeleteMapping("/{commentId}/delete")
     public ResponseEntity<?> deleteComment(
             @PathVariable Long commentId,
@@ -46,9 +43,8 @@ public class CommentController {
         return commentService.deleteComment(commentId, memberDetailsImpl.getMember());
     }
 
-    //댓글 조회
     @GetMapping
-    public ResponseEntity<?> getComment(@AuthenticationPrincipal MemberDetailsImpl memberDetailsImpl){
+    public ResponseEntity<?> getComment(@AuthenticationPrincipal MemberDetailsImpl memberDetailsImpl) {
 
         return commentService.getComment(memberDetailsImpl.getMember());
     }

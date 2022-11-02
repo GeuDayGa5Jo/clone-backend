@@ -1,7 +1,9 @@
 package com.example.twiter.service;
 
+import com.example.twiter.dto.Request.BoardRequestDto;
 import com.example.twiter.dto.Request.CommentRequestDto;
 import com.example.twiter.dto.Response.BoardResponseDto;
+import com.example.twiter.dto.Response.MyPageResponseDto;
 import com.example.twiter.entity.Board;
 import com.example.twiter.entity.Comment;
 import com.example.twiter.entity.Member;
@@ -112,7 +114,6 @@ public class BoardService {
         }
 
         BoardResponseDto dto = new BoardResponseDto(board, commentList);
-
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
