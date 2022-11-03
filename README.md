@@ -32,7 +32,7 @@
     10.28 ~ 11.03
 
 ---
-### 팀원 소개
+<h2>👫🏻 팀원 소개 </h2>
 
 | 이름   | github | position |
 |------|--------|----------|
@@ -48,7 +48,7 @@
 ![test](https://user-images.githubusercontent.com/83463300/199677835-640cad11-d7be-4f1e-90a5-6323ceaa6402.PNG)
 
 --- ---
-### ERD
+<h2>📃 ERD</h2>
 ![Screen Shot 2022-11-03 at 16 59 54](https://user-images.githubusercontent.com/83463300/199676468-a8948b20-2799-4cf2-8f45-b4068340fa5f.png)
 
 
