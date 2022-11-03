@@ -153,31 +153,47 @@ public class MemberService {
         return new ResponseEntity<>(tokenDto, HttpStatus.OK);
     }
     @Transactional
-    public ResponseEntity<?> editProfile(MemberDetailsImpl memberDetails, String bio, String memberName, MultipartFile profileImgUrl, MultipartFile headerImgUrl) throws IOException {
+    public ResponseEntity<?> editProfile( MultipartFile headerImgUrl,MultipartFile profileImgUrl,  String bio, String memberName,MemberDetailsImpl memberDetails) throws IOException {
 
         Member member = memberDetails.getMember();
         if(headerImgUrl == null && profileImgUrl == null){
             member.infoUpdate(bio, memberName, null, null);
             memberRepository.save(member);
-            return new ResponseEntity<>("수정이 완료되었습니다", HttpStatus.OK);
+            return new ResponseEntity<>("수정이 사진 둘다 없음 완료되었습니다", HttpStatus.OK);
         }
         if(headerImgUrl == null){
+            int profileSliceNum = member.getProfileImgUrl().lastIndexOf("/", member.getProfileImgUrl().lastIndexOf("/") - 1);
+            s3Uploader.deleteFile(member.getHeaderImgUrl().substring(profileSliceNum + 1));
+
             String profileUrl = s3Uploader.upload(profileImgUrl,"profile");
             member.infoUpdate(bio, memberName, profileUrl, null);
+
             memberRepository.save(member);
-            return new ResponseEntity<>("수정이 완료되었습니다", HttpStatus.OK);
-        }
-        String headerUrl = s3Uploader.upload(headerImgUrl,"header");
-        if(profileImgUrl == null){
-            member.infoUpdate(bio, memberName, null, headerUrl);
-        }
-        else{
-            String profileUrl = s3Uploader.upload(profileImgUrl,"profile");
-            member.infoUpdate(bio, memberName, profileUrl, headerUrl);
-            memberRepository.save(member);
+            return new ResponseEntity<>("수정이 프로필만 있음 완료되었습니다", HttpStatus.OK);
         }
 
-        return new ResponseEntity<>("수정이 완료되었습니다", HttpStatus.OK);
+        if(profileImgUrl == null){
+            int sliceNum = member.getHeaderImgUrl().lastIndexOf("/", member.getHeaderImgUrl().lastIndexOf("/") - 1);
+            s3Uploader.deleteFile(member.getHeaderImgUrl().substring(sliceNum + 1));
+            String headerUrl = s3Uploader.upload(headerImgUrl,"header");
+            member.infoUpdate(bio, memberName, null, headerUrl);
+
+            memberRepository.save(member);
+            return new ResponseEntity<>("수정이 헤더만 있음 완료되었습니다", HttpStatus.OK);
+        }
+        else{
+            int headerSliceNum = member.getHeaderImgUrl().lastIndexOf("/", member.getHeaderImgUrl().lastIndexOf("/") - 1);
+            s3Uploader.deleteFile(member.getHeaderImgUrl().substring(headerSliceNum + 1));
+            int profileSliceNum = member.getProfileImgUrl().lastIndexOf("/", member.getProfileImgUrl().lastIndexOf("/") - 1);
+            s3Uploader.deleteFile(member.getProfileImgUrl().substring(profileSliceNum + 1));
+
+            String headerUrl = s3Uploader.upload(headerImgUrl,"header");
+            String profileUrl = s3Uploader.upload(profileImgUrl,"profile");
+            member.infoUpdate(bio, memberName, profileUrl, headerUrl);
+
+            memberRepository.save(member);
+            return new ResponseEntity<>("수정이 둘다 있음 완료되었습니다", HttpStatus.OK);
+        }
 
     }
 

@@ -23,7 +23,7 @@ public class HeartService {
 
     public ResponseEntity<?> likeHeart(Long boardId, Member member) {
 
-        Heart heart = heartRepository.findHeartByBoard_BoardIdAndAndMember_MemberId(boardId,member.getMemberId()).orElse(null);
+        Heart heart = heartRepository.findHeartByBoard_BoardIdAndMember_MemberId(boardId,member.getMemberId()).orElse(null);
         Board board = boardRepository.findById(boardId).orElseThrow(IllegalAccessError::new);
 
         if(Objects.nonNull(heart)){

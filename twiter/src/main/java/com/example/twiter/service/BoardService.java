@@ -54,7 +54,6 @@ public class BoardService {
     public ResponseEntity<?> createBoard(String dto, MultipartFile imageFile, Member member) throws IOException {
 
         if (imageFile == null) {
-            System.out.println("no image board creation");
             Board saveWithoutFileBoard = new Board(dto, member);
             boardRepository.save(saveWithoutFileBoard);
 
@@ -66,6 +65,7 @@ public class BoardService {
                 .member(member)
                 .imageFile(s3Uploader.upload(imageFile, "member"))
                 .build();
+
         boardRepository.save(board);
 
         return new ResponseEntity<>("성공적으로 게시 되었습니다", HttpStatus.OK);
@@ -75,7 +75,6 @@ public class BoardService {
     public ResponseEntity<?> deleteBoard(Long boardId, Member member) {
 
         Optional<Board> board = boardRepository.findById(boardId);
-        System.out.println("in board service board = " + board);
 
         if (board.isEmpty()) {
             return exceptionHandler.handleApiRequestException(new IllegalArgumentException("존재 하지 않는 게시글 입니다"));
@@ -83,9 +82,7 @@ public class BoardService {
             return exceptionHandler.handleApiRequestException(new IllegalArgumentException("작성자가 다릅니다"));
         }
 
-        if (board.get().getImageFile() == null) {
-
-        } else {
+        else {
             int sliceNum = board.get().getImageFile().lastIndexOf("/", board.get().getImageFile().lastIndexOf("/") - 1);
 
             s3Uploader.deleteFile(board.get().getImageFile().substring(sliceNum + 1));
