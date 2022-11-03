@@ -47,7 +47,8 @@
 
 --- ---
 <h2>📃 ERD</h2>
-![Screen Shot 2022-11-03 at 16 59 54](https://user-images.githubusercontent.com/83463300/199676468-a8948b20-2799-4cf2-8f45-b4068340fa5f.png)
+
+![Screen Shot 2022-11-03 at 16 59 54](https://user-images.githubusercontent.com/83463300/199718350-621c366b-27d3-4084-9762-e4c8268680e5.png)
 
 
 ---
