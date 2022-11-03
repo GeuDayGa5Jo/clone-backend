@@ -1,6 +1,9 @@
+<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20130122_106%2Ftensaiseung_1358842624770erdHE_PNG%2F%25C6%25AE%25C0%25A7%25C5%25CD.png&type=sc960_832" width="200" height="200"/>
+
+
 ### clone-backend
 
-# 트위터 클론 프로잭트 
+# 트위터 클론 프로잭트
 
 
 서버 URL : http://twitter-clone-aws-bucket.s3-website.ap-northeast-2.amazonaws.com/
@@ -24,8 +27,10 @@
 <h2>💻 프로젝트 소개</h2>
 <p>어디서나 함께 하는 소셜네트워크(sns) 앱을 클론코딩 해봤습니다</p>
 <br />
+
 ### 프로 젝트 기간
     10.28 ~ 11.03
+
 ---
 ### 팀원 소개
 
