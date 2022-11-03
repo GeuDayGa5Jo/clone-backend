@@ -8,7 +8,7 @@
 
 서버 URL : http://twitter-clone-aws-bucket.s3-website.ap-northeast-2.amazonaws.com/
 
-영상 URL :
+영상 URL : https://youtu.be/ErsrgKB0Irk
 
 클론 프로잭트 팀 노션 : https://www.notion.so/5-5-6bb6e460bbb94acbb622bc7ab22e79e5
 
