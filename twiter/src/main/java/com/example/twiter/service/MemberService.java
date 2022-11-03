@@ -159,7 +159,7 @@ public class MemberService {
         if(headerImgUrl == null && profileImgUrl == null){
             member.infoUpdate(bio, memberName, null, null);
             memberRepository.save(member);
-            return new ResponseEntity<>("수정이 사진 둘다 없음 완료되었습니다", HttpStatus.OK);
+            return new ResponseEntity<>("수정이 완료되었습니다.", HttpStatus.OK);
         }
         if(headerImgUrl == null){
             int profileSliceNum = member.getProfileImgUrl().lastIndexOf("/", member.getProfileImgUrl().lastIndexOf("/") - 1);
@@ -169,7 +169,7 @@ public class MemberService {
             member.infoUpdate(bio, memberName, profileUrl, null);
 
             memberRepository.save(member);
-            return new ResponseEntity<>("수정이 프로필만 있음 완료되었습니다", HttpStatus.OK);
+            return new ResponseEntity<>("수정이 완료되었습니다.", HttpStatus.OK);
         }
 
         if(profileImgUrl == null){
@@ -179,7 +179,7 @@ public class MemberService {
             member.infoUpdate(bio, memberName, null, headerUrl);
 
             memberRepository.save(member);
-            return new ResponseEntity<>("수정이 헤더만 있음 완료되었습니다", HttpStatus.OK);
+            return new ResponseEntity<>("수정이 완료되었습니다.", HttpStatus.OK);
         }
         else{
             int headerSliceNum = member.getHeaderImgUrl().lastIndexOf("/", member.getHeaderImgUrl().lastIndexOf("/") - 1);
@@ -192,7 +192,7 @@ public class MemberService {
             member.infoUpdate(bio, memberName, profileUrl, headerUrl);
 
             memberRepository.save(member);
-            return new ResponseEntity<>("수정이 둘다 있음 완료되었습니다", HttpStatus.OK);
+            return new ResponseEntity<>("수정이 완료되었습니다.", HttpStatus.OK);
         }
 
     }
