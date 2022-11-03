@@ -82,7 +82,10 @@ public class BoardService {
             return exceptionHandler.handleApiRequestException(new IllegalArgumentException("작성자가 다릅니다."));
         }
 
-        else {
+        if (board.get().getImageFile() == null) {
+            boardRepository.deleteById(boardId);
+            return new ResponseEntity<>("삭제가 완료 되었습니다.", HttpStatus.OK);
+        } else {
             int sliceNum = board.get().getImageFile().lastIndexOf("/", board.get().getImageFile().lastIndexOf("/") - 1);
 
             s3Uploader.deleteFile(board.get().getImageFile().substring(sliceNum + 1));
@@ -99,7 +102,7 @@ public class BoardService {
         Board board = boardRepository.findById(boardId).orElse(null);
 
         if (board == null) {
-            return exceptionHandler.handleApiRequestException(new IllegalArgumentException("게시글이 존재하지 않습니다."));
+            return exceptionHandler.handleApiRequestException(new IllegalArgumentException("게시글이 존재하지 않습니다"));
         }
 
         List<CommentRequestDto> commentList = new ArrayList<>();

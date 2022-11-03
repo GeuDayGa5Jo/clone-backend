@@ -46,6 +46,7 @@ public class MemberRequestDto {
         this.memberEmail = member.getMemberEmail();
         this.memberName = member.getMemberName();
         this.dob = member.getDob();
+        this.profileImg = member.getProfileImgUrl();
         this.authority = member.getAuthority();
     }
 

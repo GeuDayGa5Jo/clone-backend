@@ -17,7 +17,7 @@ POST http://localhost:8080/member/login
 Content-Type: application/json
 
 {
-  "memberEmail": "뚜1비@gmail.com",
+  "memberEmail": "뚜3비@gmail.com",
   "memberPassword": "1234fd"
 }
 
@@ -41,8 +41,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkYW4xMEBnbWFpbC5jb20iLCJhd
 ###
 POST http://localhost:8080/auth/boards/create
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiLrmpwx67mEQGdtYWlsLmNvbSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2Njc0MjE1NTZ9.f9prdABg5ECkLfFiyOuu9QKRBtx1PuAqEkklDVRsp5q_FL1d4mDkd44yr-Hb_In-FhqSwMXC43CT6tqt0Mvklg
-
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiLrmpwz67mEQGdtYWlsLmNvbSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2Njc0ODYzNzV9.nJ7yz5GYpPJE6pfbYigwTUvRp4IeZyTU7pwx2XO1qWKgElzNuTmtJl9srZnOh0oJZSidu8dD9joi_kiS4QZaJA
 
 {
   "boardContent": "changed to this, now try to add a comment"
