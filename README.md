@@ -18,8 +18,10 @@
     
     게시글 , 댓글 crud (사진, 내용) 
 
+    게시글, 댓글 좋아요(갯수포함) 팔로우, 카카오 Oauth (백엔드만 구현) 
+
 ---
-### 프로 잭트 기간
+### 프로 젝트 기간
     10.28 ~ 11.03
 ---
 ### 팀원 소개
@@ -34,7 +36,8 @@
 
 ---
 ### API
-![test](https://user-images.githubusercontent.com/83463300/199676553-32f4fba2-7e44-4938-81e6-e7e07312c31c.png)
+
+![test](https://user-images.githubusercontent.com/83463300/199677835-640cad11-d7be-4f1e-90a5-6323ceaa6402.PNG)
 
 --- ---
 ### ERD
