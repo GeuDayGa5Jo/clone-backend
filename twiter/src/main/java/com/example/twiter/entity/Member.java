@@ -57,9 +57,6 @@ public class Member {
 //    private List<Follow> followers;
 
     @Column
-    private UUID randomId;
-
-    @Column
     private String dob;
 
     @JsonIgnore
@@ -75,10 +72,10 @@ public class Member {
     }
 
     public void infoUpdate(String bio, String memberName, String profileUrl, String headerUrl) {
-        this.memberName = memberName != null ? memberName : this.memberName;
+        this.memberName = memberName.isEmpty() ? this.memberName : memberName;
         this.headerImgUrl = headerUrl != null ? headerUrl : this.headerImgUrl;
         this.profileImgUrl = profileUrl != null ? profileUrl : this.profileImgUrl ;
-        this.bio = bio != null ? bio : this.bio;
+        this.bio = bio.isEmpty() ? this.bio : bio;
     }
 
 }

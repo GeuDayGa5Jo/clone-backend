@@ -54,11 +54,10 @@ public class BoardService {
     public ResponseEntity<?> createBoard(String dto, MultipartFile imageFile, Member member) throws IOException {
 
         if (imageFile == null) {
-            System.out.println("no image board creation");
             Board saveWithoutFileBoard = new Board(dto, member);
             boardRepository.save(saveWithoutFileBoard);
 
-            return new ResponseEntity<>("성공적으로 생성 되었습니다(보드 추가시)", HttpStatus.OK);
+            return new ResponseEntity<>("성공적으로 생성 되었습니다.", HttpStatus.OK);
         }
 
         Board board = Board.builder()
@@ -66,26 +65,24 @@ public class BoardService {
                 .member(member)
                 .imageFile(s3Uploader.upload(imageFile, "member"))
                 .build();
+
         boardRepository.save(board);
 
-        return new ResponseEntity<>("성공적으로 게시 되었습니다", HttpStatus.OK);
+        return new ResponseEntity<>("성공적으로 생성 되었습니다.", HttpStatus.OK);
     }
 
     @Transactional
     public ResponseEntity<?> deleteBoard(Long boardId, Member member) {
 
         Optional<Board> board = boardRepository.findById(boardId);
-        System.out.println("in board service board = " + board);
 
         if (board.isEmpty()) {
-            return exceptionHandler.handleApiRequestException(new IllegalArgumentException("존재 하지 않는 게시글 입니다"));
+            return exceptionHandler.handleApiRequestException(new IllegalArgumentException("존재 하지 않는 게시글 입니다."));
         } else if (board.get().getMember().getMemberId() != member.getMemberId()) {
-            return exceptionHandler.handleApiRequestException(new IllegalArgumentException("작성자가 다릅니다"));
+            return exceptionHandler.handleApiRequestException(new IllegalArgumentException("작성자가 다릅니다."));
         }
 
-        if (board.get().getImageFile() == null) {
-
-        } else {
+        else {
             int sliceNum = board.get().getImageFile().lastIndexOf("/", board.get().getImageFile().lastIndexOf("/") - 1);
 
             s3Uploader.deleteFile(board.get().getImageFile().substring(sliceNum + 1));
@@ -93,7 +90,7 @@ public class BoardService {
 
         boardRepository.deleteById(boardId);
 
-        return new ResponseEntity<>("삭제가 완료 되었습니다", HttpStatus.OK);
+        return new ResponseEntity<>("삭제가 완료 되었습니다.", HttpStatus.OK);
     }
 
     @Transactional
@@ -102,7 +99,7 @@ public class BoardService {
         Board board = boardRepository.findById(boardId).orElse(null);
 
         if (board == null) {
-            return exceptionHandler.handleApiRequestException(new IllegalArgumentException("게시글이 존재하지 않습니다"));
+            return exceptionHandler.handleApiRequestException(new IllegalArgumentException("게시글이 존재하지 않습니다."));
         }
 
         List<CommentRequestDto> commentList = new ArrayList<>();
@@ -125,7 +122,7 @@ public class BoardService {
         Pageable pageable = PageRequest.of(page, size, sort);
         boardRepository.findAllByOrderByBoardId(pageable);
 
-        return new ResponseEntity<>("스크롤 완료", HttpStatus.OK);
+        return new ResponseEntity<>("스크롤 완료.", HttpStatus.OK);
     }
 
 }

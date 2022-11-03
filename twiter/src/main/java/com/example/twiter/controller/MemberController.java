@@ -41,12 +41,12 @@ public class MemberController {
 
     @PutMapping("/auth/editProfile")
     public ResponseEntity<?> editProfile(@AuthenticationPrincipal MemberDetailsImpl memberDetails,
-                                         @RequestParam(value = "bio", required = false) String bio,
                                          @RequestParam(value = "headerImgUrl", required = false) MultipartFile headerImgUrl,
                                          @RequestParam(value = "profileImgUrl", required = false) MultipartFile profileImgUrl,
+                                         @RequestParam(value = "bio", required = false) String bio,
                                          @RequestParam(value = "memberName" , required = false) String memberName) throws IOException {
 
-        return memberService.editProfile(memberDetails,bio,memberName, headerImgUrl,profileImgUrl);
+        return memberService.editProfile(headerImgUrl,profileImgUrl,bio,memberName,memberDetails);
     }
 
 }

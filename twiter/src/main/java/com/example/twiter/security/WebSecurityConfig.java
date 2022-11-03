@@ -38,7 +38,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         reg
                 // 전부 허용
                 .addMapping("/**")
-                .allowedOrigins("http://localhost:3000", "http://localhost:3001")
+                .allowedOrigins("http://localhost:3000", "http://twitter-clone-aws-bucket.s3-website.ap-northeast-2.amazonaws.com/")
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .exposedHeaders("Authorization", "RefreshToken")
                 .allowCredentials(true);

@@ -24,10 +24,12 @@ public class BoardRequestDto {
 
     private CommentRequestDto commentRequestDto;
 
-    public BoardRequestDto(Board board, CommentRequestDto commentDto){
-        this.boardContent = board.getBoardContent();
-        this.imageUrl = board.getImageFile();
-        this.commentRequestDto = commentDto;
-    }
+    //refactoring point - use this in the getBoard in boardService
+
+//    public BoardRequestDto(Board board, CommentRequestDto commentDto){
+//        this.boardContent = board.getBoardContent();
+//        this.imageUrl = board.getImageFile();
+//        this.commentRequestDto = commentDto;
+//    }
 
 }

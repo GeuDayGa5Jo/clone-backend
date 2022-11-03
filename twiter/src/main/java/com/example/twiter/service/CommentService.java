@@ -31,7 +31,7 @@ public class CommentService {
 
         commentRepository.save(comment);
 
-        return new ResponseEntity<>("댓글이 작성되었습니다", HttpStatus.CREATED);
+        return new ResponseEntity<>("댓글이 작성되었습니다.", HttpStatus.CREATED);
     }
 
     @Transactional
